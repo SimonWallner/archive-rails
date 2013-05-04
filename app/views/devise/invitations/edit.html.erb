@@ -1,0 +1,30 @@
+<h2><%= t 'devise.invitations.edit.header' %></h2>
+
+<%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f| %>
+  <%= devise_error_messages! %>
+  <%= f.hidden_field :invitation_token %>
+
+  <p><%= f.label :password %><br />
+  <%= f.password_field :password %></p>
+
+  <p><%= f.label :password_confirmation %><br />
+  <%= f.password_field :password_confirmation %></p>
+
+  <p>
+    <%= f.label :firstname %><br />
+    <div class="input-description">
+      Always use your real name. We check them on a regular basis and delete accounts with wrong information.
+    </div>
+    <%= f.text_field :firstname %>
+  </p>
+
+  <p>
+    <%= f.label :lastname %><br />
+    <div class="input-description">
+      Always use your real name. We check them on a regular basis and delete accounts with wrong information.
+    </div>
+    <%= f.text_field :lastname %>
+  </p>
+
+  <p><%= f.submit t("devise.invitations.edit.submit_button") %></p>
+<% end %>

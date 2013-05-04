@@ -1,0 +1,53 @@
+<div class="company">
+	<h1><%=h @company.name %></h1>
+
+
+
+	<div class="fact-box">
+		<%=
+			imguploader = ImageUploader.new
+
+			if not @company.image_url.to_s == imguploader.default_url
+				image_tag @company.image_url.to_s , :class => "media rounded"
+			end
+		%>
+
+		<%= render :template => "facts/_single", :locals => { :fact => @company.official_name, :label => "Official Name" } %>
+		<%= render :template => "facts/_single", :locals => { :fact => format_date(@company.founded), :label => "Founded" } %>
+		<%= render :template => "facts/_single", :locals => { :fact => format_date(@company.defunct), :label => "Defunct" } %>
+		<%= render :template => "facts/_name_addinfo", :locals => { :object => @company.locations, :label => "Locations" } %>
+		<%= render :template => "facts/_standard", :locals => { :object => @company, :label => "External Links" } %>
+		<%= render :template => "facts/_credits", :locals => { :object => @company } %>
+		<%= render :template => "facts/_user_defined", :locals => { :object => @company } %>
+	</div>
+
+	<div class="text">
+		<%= markdown(@company.description) %>
+	</div>
+
+	<% if user_signed_in? %>
+		<div id="versions">
+			Version shown: <span id="current-version"><%= @company.version_number %></span>,  
+				<% if @show_restore %>
+					<%= link_to "restore this version", restore_company_version_path(@company.id, @company.version_number), :method => :post %>
+				<% end %>
+			<br/>
+			available versions:
+			<ul>
+				<% Company.where(:version_id => @company.version_id).each do |company| %>
+					<li>
+						<%= link_to company.version_number, company_version_path(company.id, company.version_number) %>
+					</li>
+				<% end %>
+			</ul>
+		</div>
+	<% end %>
+
+	<div class="clear"></div>
+	<%= if user_signed_in?
+		link_to 'Edit', edit_company_path(@company)
+	else
+		link_to 'Report', report_company_path(@company)
+	end %>
+</div>
+

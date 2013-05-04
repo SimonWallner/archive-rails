@@ -1,0 +1,10 @@
+<% get_user_fields(object).each do |f| %>
+    <div class="fact">
+		<span class="label">
+            <%= f.name %>:
+        </span>
+        <div>
+          <%= just_links_markdown f.content %>
+        </div>
+    </div>
+<% end %>

@@ -1,0 +1,61 @@
+
+
+
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+
+/*div {
+  &.field, &.actions {
+    margin-bottom: 10px;
+  }
+}*/
+
+#notice {
+  color: green;
+}
+
+.field_with_errors {
+  padding: 2px;
+  background-color: #888080;
+  display: table;
+}
+.field-label{
+  width: 25em;
+}
+
+#error_explanation {
+  width: 48%;
+  border: 2px solid #888080;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+
+
+}
+#error_explanation h2 {
+  font-size: 1.5em;
+}
+
+#error_explanation ul {
+ margin-bottom: 10px;
+
+}
+
+.field_with_errors {
+  width: 50%;
+
+}
+.field_with_errors input {
+  width: 99%;
+
+}
+
+
+
+
+
