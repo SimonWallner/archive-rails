@@ -1,3 +1,7 @@
+# Capistrano deploy file
+# see documentation section below, on how to prepare the server and what
+# to set up where
+
 # deploy with bundler
 require 'bundler/capistrano'
 
@@ -30,11 +34,12 @@ namespace :deploy do
 	desc "Symlink shared files like database.yml into the release folder"
 	task :symlink_shared_files do
 		run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+		run "ln -nfs #{shared_path}/public/uploads #{release_path}/public/uploads"
 	end
 	
 	desc "fix access rights for certain folders and files"
 	task :fix_access_rights do
-		run "chown www-data:psacln #{release_path}/tmp/"
+		run "chown -R www-data:psacln #{release_path}/tmp/"
 	end
 	
 	desc "start nginx"
@@ -65,4 +70,33 @@ after 'deploy:update_code', 'deploy:fix_access_rights'
 after "deploy:restart", "deploy:cleanup"
 
 
-
+## DOCUMENTATION
+# This deploy setup relies on a few things on the server side in order to 
+# function correctly. Especially all the commands that link to shared
+# resources require those resources to be present in the first place
+# 
+# 
+# -- Database config -- 
+# put a database.yml file in /shared/config/
+# for mysql it looks something like this:
+# 
+# production:
+#   adapter: mysql2
+#   encoding: utf8
+#   database: <db name>
+#   username: <db user>
+#   password: <pwd>
+#   host: localhost
+#   port: 3306
+# 
+# 
+# -- production.log -- 
+# It looks like capistrano takes care of the production.log and links it
+# into the current release. If not, try creating a production.log file in
+# /shared/log/. Make sure the www user can write to it
+# 
+# 
+# -- Assets and uploads --
+# Uploads are stored in /shared/public/uploads otherwise they are overwriten
+# on each deploy. Create the folder /shared/public/uploads and set the 
+# appropriate rights.
