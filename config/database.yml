@@ -18,6 +18,8 @@ test: &test
   pool: 5
   timeout: 5000
 
+# add production db credentials on the server only (NOT IN THE REPO) and
+# link them on deploy with capistrano
 production:
   adapter: sqlite3
   database: db/production.sqlite3

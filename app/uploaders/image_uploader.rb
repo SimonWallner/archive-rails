@@ -26,9 +26,10 @@ class ImageUploader < CarrierWave::Uploader::Base
   # Choose what kind of storage to use for this uploader:
   end
 
-  def cache_dir
-    Rails.root.join('public/uploads/tmp')
-  end
+  # don't set cache dir for now, if the default works...
+  # def cache_dir
+  #   Rails.root.join('public/uploads/tmp')
+  # end
 
   #Provide a default URL as a default if there hasn't been a file uploaded:
   def default_url
