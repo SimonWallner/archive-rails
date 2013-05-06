@@ -9,7 +9,9 @@ set :application, "game_archive"
 set :domain, "46.163.119.27"
 set :deploy_to, "/var/www/ror-archive"
 set :rails_env, "production"
-set :user, "root"
+set :user, "capistrano"
+set :use_sudo, false
+set(:sudo_pwd) {Capistrano::CLI.ui.ask("sudo pwd for #{user}: ")}
 
 set :scm, :git
 set :repository, "git://github.com/SimonWallner/archive-rails.git"
@@ -25,6 +27,7 @@ role :db, domain, :primary => true # This is where Rails migrations will run
 set :default_environment, {
   'PATH' => "/usr/local/rvm/gems/ruby-1.9.3-p385/bin:/usr/local/rvm/gems/ruby-1.9.3-p385@global/bin:/usr/local/rvm/rubies/ruby-1.9.3-p385/bin:/usr/local/rvm/bin:$PATH"
 }
+default_run_options[:pty] = true
 
 # run migrations afeter every deploy
 # after 'deploy:update_code', 'deploy:migrate'
@@ -39,7 +42,7 @@ namespace :deploy do
 	
 	desc "fix access rights for certain folders and files"
 	task :fix_access_rights do
-		run "chown -R www-data:psacln #{release_path}/tmp/"
+		run "echo #{sudo_pwd} | sudo -S chown -R www-data:psacln #{release_path}/tmp/"
 	end
 	
 	desc "start nginx"
@@ -54,7 +57,7 @@ namespace :deploy do
 	
 	desc "restart passenger"
 	task :restart, :roles => :app, :except => { :no_release => true } do
-		run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+		run "echo #{sudo_pwd} | sudo -S touch #{File.join(current_path,'tmp','restart.txt')}"
 	end
 end
 
@@ -88,6 +91,8 @@ after "deploy:restart", "deploy:cleanup"
 #   password: <pwd>
 #   host: localhost
 #   port: 3306
+#
+# The database must also be set up via rake db:setup
 # 
 # 
 # -- production.log -- 
