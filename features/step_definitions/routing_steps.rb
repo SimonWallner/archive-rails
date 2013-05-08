@@ -240,3 +240,11 @@ end
 Then /^I should be on the detail page of the given company$/ do
   on_company_detail_page @givenCompany
 end
+
+When /^I visit the report errors page$/ do
+  visit bugs_path
+end
+
+Then /^I should see the report errors page$/ do
+  page.should have_content("Report Errors")
+end

@@ -1,0 +1,9 @@
+require "spec_helper"
+
+describe BugsController do
+  describe "routing" do
+
+    it "routes to #index" do
+      get("/bugs").should route_to("bugs#index")
+    end
+end

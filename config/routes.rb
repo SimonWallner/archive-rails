@@ -77,6 +77,7 @@ GameArchive::Application.routes.draw do
 	end
 
 	resources :about, only: [:index]
+	resources :bugs, only: [:index]
 	
 	# The priority is based upon order of creation:
 	# first created -> highest priority.
