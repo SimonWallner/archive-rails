@@ -122,7 +122,7 @@ class GamesController < ApplicationController
 		Rails.logger.info "---finding old version"
 		old = @@GAME_VERSIONER.current_version Game.find(params[:id])
 
-		Rails.logger.winfoarn "---finding new version"
+		Rails.logger.info "---finding new version"
 		@game = @@GAME_VERSIONER.new_version old, params
 		
 		Rails.logger.info "---create stuff"
