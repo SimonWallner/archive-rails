@@ -119,14 +119,17 @@ class GamesController < ApplicationController
 	# PUT /games/1
 	def update
 		Rails.logger.info "info"
-		Rails.logger.debug "debug"
-		Rails.logger.warn "---finding old version"
+		Rails.logger.info "---finding old version"
 		old = @@GAME_VERSIONER.current_version Game.find(params[:id])
 
-		Rails.logger.warn "---finding new version"
+		Rails.logger.winfoarn "---finding new version"
 		@game = @@GAME_VERSIONER.new_version old, params
+		
+		Rails.logger.info "---create stuff"
 		create_add_new_token(params[:new_genres], params[:new_platforms], params[:new_medias], params[:new_modes], params[:new_tags])
+		Rails.logger.info "----1"
 		create_add_new_release_dates(params[:new_release_dates])
+		Rails.logger.info "-----2"
 		Field.create_add_new_fields(@game, params[:new_fields])
 
 		Rails.logger.warn "---updating params"
