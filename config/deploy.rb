@@ -10,8 +10,8 @@ set :domain, "46.163.119.27"
 set :deploy_to, "/var/www/ror-archive"
 set :rails_env, "production"
 set :user, "capistrano"
-set :use_sudo, false
-set(:sudo_pwd) {Capistrano::CLI.ui.ask("sudo pwd for #{user}: ")}
+set :use_sudo, true
+
 
 set :scm, :git
 set :repository, "git://github.com/SimonWallner/archive-rails.git"
@@ -42,8 +42,8 @@ namespace :deploy do
 	
 	desc "fix access rights for certain folders and files"
 	task :fix_access_rights do
-		run "echo #{sudo_pwd} | sudo -S chown -R capistrano:psacln #{release_path}/tmp/"
-		run "echo #{sudo_pwd} | sudo -S chmod -R g+w #{release_path}/tmp/"
+		run "#{try_sudo} chown -R capistrano:psacln #{release_path}/tmp/"
+		run "#{try_sudo} chmod -R g+w #{release_path}/tmp/"
 	end
 	
 	desc "start nginx"
@@ -58,14 +58,14 @@ namespace :deploy do
 	
 	desc "restart passenger"
 	task :restart, :roles => :app, :except => { :no_release => true } do
-		run "echo #{sudo_pwd} | sudo -S touch #{File.join(current_path,'tmp','restart.txt')}"
+		run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 	end
 end
 
 namespace :logs do
 	desc "tail the production log"
 	task :production do
-		run "less #{current_release}/log/production.log"
+		run "tail -f #{current_release}/log/production.log"
 	end
 end
 
