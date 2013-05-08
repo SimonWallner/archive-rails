@@ -118,16 +118,20 @@ class GamesController < ApplicationController
 
 	# PUT /games/1
 	def update
+		puts "---finding old version"
 		old = @@GAME_VERSIONER.current_version Game.find(params[:id])
 
+		puts "---finding new version"
 		@game = @@GAME_VERSIONER.new_version old, params
 		create_add_new_token(params[:new_genres], params[:new_platforms], params[:new_medias], params[:new_modes], params[:new_tags])
 		create_add_new_release_dates(params[:new_release_dates])
 		Field.create_add_new_fields(@game, params[:new_fields])
 
+		puts "---updating params"
 		# update all params which might be outdated due to versioning
 		update_params params, old
 		if @game.update_attributes(params[:game])
+			puts "--if"
 			create_add_new_mixed_fields(params[:new_developers], MixedFieldType.find_by_name("Developer"))
 			create_add_new_mixed_fields(params[:new_publishers], MixedFieldType.find_by_name("Publisher"))
 			create_add_new_mixed_fields(params[:new_distributors], MixedFieldType.find_by_name("Distributor"))
@@ -135,6 +139,7 @@ class GamesController < ApplicationController
 			create_add_new_mixed_fields(params[:new_series], MixedFieldType.find_by_name("Series"))
 			redirect_to @game
 		else
+			puts "--else"
 			# delete newest version
 			old.add_errors @game.errors
 			@game.destroy
