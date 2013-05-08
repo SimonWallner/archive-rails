@@ -5,6 +5,11 @@ Given /^I have a game (.*)$/ do |game_name|
 	@givenGame = FactoryGirl.create :game, title: game_name
 end
 
+Given /^a game (.*?) with the description (.*?)$/ do |name, description|
+	@givenDescription = description
+  	@givenGame = FactoryGirl.create :game, title: name, description: description
+end
+
 Given /^I am on the game article page of (.*)$/ do |game_name|
 	@givenGame = FactoryGirl.create :game, title: game_name
 	visit game_path(@givenGame)
@@ -171,5 +176,9 @@ Then /^I should be on the report article page$/ do
 	elsif (@givenCompany)
 		URI.parse(current_url).path.should eql(report_company_path(@givenCompany))
 	end
+end
+
+Then /^I should see the game's description$/ do
+	page.should have_content(@givenDescription)
 end
 

@@ -24,3 +24,8 @@ Feature: Structure Content
     When I create a game with a link with a name
     Then I should see the game
     And I should see the link as a name
+
+  Scenario: Don't die when rendering email addresses
+		Given a game Tetris with the description bug@example.com
+		When I visit the game article page
+		Then I should see the game's description
