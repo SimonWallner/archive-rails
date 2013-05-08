@@ -30,7 +30,7 @@ set :default_environment, {
 default_run_options[:pty] = true
 
 # run migrations afeter every deploy
-# after 'deploy:update_code', 'deploy:migrate'
+after 'deploy:update_code', 'deploy:migrate'
 
 
 namespace :deploy do
@@ -42,7 +42,8 @@ namespace :deploy do
 	
 	desc "fix access rights for certain folders and files"
 	task :fix_access_rights do
-		run "echo #{sudo_pwd} | sudo -S chown -R www-data:psacln #{release_path}/tmp/"
+		run "echo #{sudo_pwd} | sudo -S chown -R capistrano:psacln #{release_path}/tmp/"
+		run "echo #{sudo_pwd} | sudo -S chmod -R g+w #{release_path}/tmp/"
 	end
 	
 	desc "start nginx"
