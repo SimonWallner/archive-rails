@@ -84,16 +84,25 @@ class Versioner
 	# copies the current state and saves the new version
 	# returns the new version
 	def new_version(old, params)
+		Rails.logger.info "---- enter Versioner::new_version -----"
 		new = model_class.new
+		Rails.logger.info " 	- 1"
 		new.version_id = old.version_id
+		Rails.logger.info " 	- 2"
 		new.version_author_id = old.version_author_id
+		Rails.logger.info " 	- 3"
 		# version number
 		new.version_number = ( current_version(old).version_number + 1 )
+		Rails.logger.info " 	- 4"
 
 		new_version_additional_behaviour_before_save old, new, params
+		Rails.logger.info " 	- 5"
 		new.version_updated_at = Time.now
+		Rails.logger.info " 	- 6"
 		new.save
+		Rails.logger.info " 	- 7"
 		new_version_additional_behaviour_after_save old, new, params
+		Rails.logger.info " 	- 8"
 		return new
 	end
 
