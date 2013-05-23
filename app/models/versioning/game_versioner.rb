@@ -67,10 +67,15 @@ class GameVersioner < Versioner
 	def new_version_additional_behaviour_before_save(old, new, params)
 		Rails.logger.info " 	----- entering GameVersioner::new_version_add...."
 		new.title = old.title
+		Rails.logger.info " 		- 0.1"
 		new.description = old.description
+		Rails.logger.info " 		- 0.2"
 		new.created_at = old.created_at
+		Rails.logger.info " 		- 0.3"
 		new.updated_at = Time.now
+		Rails.logger.info " 		- 0.4"
 		new.image = old.image
+		Rails.logger.info " 		- 0.5"
 		new.popularity = old.popularity
 		Rails.logger.info " 		- 1"
 
