@@ -1,0 +1,12 @@
+<% if list.any? %>
+	<div class="fact">
+		<span class="label">
+			<%= label.to_s.pluralize(list.count) %>:
+		</span>
+		<ul>
+			<% list.each do |entry| %>
+				<li><%=entry.name%></li>
+			<% end %>
+		</ul>
+	</div>
+<% end %>
