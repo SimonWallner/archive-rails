@@ -45,7 +45,10 @@ end
 
 
 gem 'jquery-rails'
+gem 'jqyery-ui-rails' # not sure we use it though, heroku asset precompile demands it...
+
 gem 'mini_magick'
+
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
 
