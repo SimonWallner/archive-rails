@@ -65,22 +65,13 @@ class GameVersioner < Versioner
 	#adds additional behaviour to the new_version method
 	# override in sublass if wanted
 	def new_version_additional_behaviour_before_save(old, new, params)
-		Rails.logger.info " 	----- entering GameVersioner::new_version_add...."
 		new.title = old.title
-		Rails.logger.info " 		- 0.1"
 		new.description = old.description
-		Rails.logger.info " 		- 0.2"
 		new.created_at = old.created_at
-		Rails.logger.info " 		- 0.3"
 		new.updated_at = Time.now
 
-		Rails.logger.info " 		- 0.4"
 		new.image = old.image.file
-			
-			
-		Rails.logger.info " 		- 0.5"
 		new.popularity = old.popularity
-		Rails.logger.info " 		- 1"
 
 		# fields
 		old.fields.each do |f|
@@ -88,46 +79,38 @@ class GameVersioner < Versioner
 		end
 
 		# release dates
-		Rails.logger.info " 		- 2"
 		old.release_dates.each do |rd|
 			new.release_dates.push rd.copy_without_references
 		end
 
 		# videos
-		Rails.logger.info " 		- 3"
 		old.videos.each do |v|
 			new.videos.push v.copy_without_references
 		end
 
-		Rails.logger.info " 		- 4"
 		screenshot_versioning old, new, params
 
 		# genres
-		Rails.logger.info " 		- 5"
 		old.genres.each do |g|
 			new.genres.push g
 		end
 
 		# platforms
-		Rails.logger.info " 		- 6"
 		old.platforms.each do |p|
 			new.platforms.push p
 		end
 
 		# media
-		Rails.logger.info " 		- 7"
 		old.media.each do |m|
 			new.media.push m
 		end
 
 		# modes
-		Rails.logger.info " 		- 8"
 		old.modes.each do |m|
 			new.modes.push m
 		end
 
 		# tags
-		Rails.logger.info " 		- 9"
 		old.tags.each do |t|
 			new.tags.push t
 		end
