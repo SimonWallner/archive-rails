@@ -13,6 +13,7 @@
 //= require jquery.min
 //= require jquery.ui.widget
 //= require jquery.ui.autocomplete
+//= require jquery.ui.all
 //= require jquery_ujs
 //= require tag-it.js
 //= require tooltipsy.min.js
