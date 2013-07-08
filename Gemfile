@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 ruby "1.9.3"
 gem 'rails', '3.2.8'
 
+# heroku default production server
+gem 'unicorn'
 
 # js something somehting
 # gem 'execjs' # pick a suitable js engine, rake needs it
@@ -55,9 +57,6 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
 
-# Use unicorn as the app server
-# do not use unicorn as it won't work on windows
-#gem 'unicorn'
 
 # Deploy with Capistrano
 # gem 'capistrano'
