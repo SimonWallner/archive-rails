@@ -12,7 +12,7 @@ GameArchive::Application.configure do
   config.serve_static_assets = false
 
   # Compress JavaScripts and CSS
-  config.assets.compress = true
+  config.assets.compress = false
   
   config.action_mailer.default_url_options = {:host => 'archive.gamelab.at:8080'}
   # ActionMailer Config
