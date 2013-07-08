@@ -241,7 +241,7 @@ DEPENDENCIES
   guard-cucumber
   guard-livereload
   guard-rspec
-  jquery-rails
+  jquery-rails (~> 2.1)
   jquery-ui-rails
   json (~> 1.7.5)
   launchy (>= 2.1.0)
