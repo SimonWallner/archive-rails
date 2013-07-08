@@ -11,7 +11,6 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery.min
-//= require jquery-ui.min
 //= require jquery_ujs
 //= require tag-it.js
 //= require tooltipsy.min.js
