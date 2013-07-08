@@ -1,16 +1,16 @@
 def submit_any_button
 
   begin
-    if find_button("Update Developer")
-      click_button "Update Developer"
+    if find_button("Update Developer Article")
+      click_button "Update Developer Article"
     end
   rescue Capybara::ElementNotFound
     #puts "Update Developer not found"
   end
 
   begin
-    if find_button("Create Developer")
-      click_button "Create Developer"
+    if find_button("Create Developer Article")
+      click_button "Create Developer Article"
     end
   rescue Capybara::ElementNotFound
     #puts "Create Developer not found"

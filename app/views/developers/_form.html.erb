@@ -57,6 +57,6 @@
 	</div>
 
 	<div class="actions">
-		<%= f.submit "Create Developer Article"%>
+		<%= f.submit @developer.new_record? ? "Create Developer Article" : "Update Developer Article" %>
 	</div>
 <% end %>
