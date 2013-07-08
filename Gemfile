@@ -44,7 +44,7 @@ group :production do
 end
 
 
-gem 'jquery-rails'
+gem 'jquery-rails', "~> 2.1"
 gem 'jquery-ui-rails'
 gem 'mini_magick'
 
