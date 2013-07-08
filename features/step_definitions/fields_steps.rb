@@ -11,56 +11,56 @@ When /^I enter field with "(.*?)"$/ do |fill|
     @month = "3"
     @year = "2012"
     @additionalDate = "@additionalDate"
-    @allDateText=@day +"." +@month+"." + @year
+    @allDateText = @day + "." + @month + "." + @year
     if fill == "Release Dates"
       within(".release_dates_div") do
         select(@day, :from => 'day_release_date1')
         select(@month, :from => 'month_release_date1')
         fill_in "year_release_date1", :with => @year
-        fill_in "text_release_date1", :with => " - "+@additionalDate
+        fill_in "text_release_date1", :with => " - " + @additionalDate
       end
     end
     if fill == "Developer"
-      @textDeveloper = "new developer"
+      @textDeveloper = "new developer 7yff1dzf"
       fill_in "developer_link", :with => @textDeveloper
     end
     if fill == "Publisher"
-      @textPublisher = "new publisher"
+      @textPublisher = "new publisher vudwfkua"
       fill_in "publisher_link", :with => @textPublisher
     end
     if fill == "Distributor"
-      @textDistributor = "new distributor"
+      @textDistributor = "new distributor gx8096zr"
       fill_in "distributor_link", :with => @textDistributor
     end
     if fill == "Credits"
-      @textCredits = "new credits"
+      @textCredits = "new credits zeo9to35"
       fill_in "credits_link", :with => @textCredits
     end
     if fill == "Series"
-      @textSeries = "new series"
+      @textSeries = "new series xkj3z1my"
       fill_in "series_link", :with => @textSeries
     end
     if fill == "Userdefined"
-      @nameUserdefined = "new name Userdefined"
-      @contentUserdefined = "new contentUserdefined"
+      @nameUserdefined = "new name Userdefined z6euvtrj"
+      @contentUserdefined = "new contentUserdefined gwn9oc7e"
       click_link_or_button "Add Field"
       select(fill, :from => 'newFieldId')
       fill_in "name_userdefined1", :with => @nameUserdefined
       fill_in "content_userdefined1", :with => @contentUserdefined
     end
     if fill == "External Links"
-      @externalLinks= "new external links"
+      @externalLinks= "new external links 4hy4itam"
       fill_in "new_external_links", :with => @externalLinks
     end
     if fill == "Aggregate Scores"
-      @aggregate_scores= "new a scores"
+      @aggregate_scores= "new a scores gupcwuba"
       click_link_or_button "Add Field"
       select(fill, :from => 'newFieldId')
       fill_in "new_aggregate_scores", :with => @aggregate_scores
     end
     if fill == "Review Scores"
       click_link_or_button "Add Field"
-      @review_scores= "new r scores"
+      @review_scores= "new redview scores pijixqrl"
       select(fill, :from => 'newFieldId')
       fill_in "new_review_scores", :with => @review_scores
     end
@@ -146,23 +146,23 @@ end
  When /^I enter field with token list "(.*?)"$/ do |fill|
 
     if fill == "Platform"
-      @textPlatforms = "new plattforms"
+      @textPlatforms = "new plattforms 2hv19n7p1xy0l32h"
       fill_in "new_platforms_input", :with => @textPlatforms
     end    
         if fill == "Genres" 
-      @textGenres = "new genres"
+      @textGenres = "new genres ncubdtvememvemxk"
       fill_in "new_genres_input", :with => @textGenres
     end
         if fill == "Tags"
-      @textTags = "new tags"
+      @textTags = "new tags 1fjtg8zfw27cyign"
       fill_in "new_tags_input", :with => @textTags
     end    
         if fill == "Mode"
-      @textModes = "new modes"
+      @textModes = "new modes xcld9y0u2cz0x4kz"
       fill_in "new_modes_input", :with => @textModes
     end
     if fill == "Media"
-      @textMedias = "new medias"
+      @textMedias = "new medias 8mv8xw10ryhlttah"
       fill_in "new_medias_input", :with => @textMedias
     end
 end

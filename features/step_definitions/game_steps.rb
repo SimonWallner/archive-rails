@@ -113,10 +113,12 @@ end
 #		Scenario: create game and genres with valid data
 
 When /^I fill in the fields of game and genres with valid details and submit it$/ do 
-	@new_game_title="Mario"
-	@new_game_description= "awesome"	
+	@new_game_title ="Mario"
+	@new_game_description = "awesome"
+
 	fill_in("game_title", :with => @new_game_title)
-	fill_in("game_description", :with => @new_game_description)	 
+	fill_in("game_description", :with => @new_game_description)
+	
 	click_button "Create Game"
 end
 
