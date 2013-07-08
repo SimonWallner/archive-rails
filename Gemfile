@@ -45,7 +45,7 @@ end
 
 
 gem 'jquery-rails'
-gem 'jqyery-ui-rails' # not sure we use it though, heroku asset precompile demands it...
+gem 'jquery-ui-rails' # not sure we use it though, heroku asset precompile demands it...
 
 gem 'mini_magick'
 
