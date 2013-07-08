@@ -80,7 +80,7 @@ gem 'simplecov', :require => false, :group => :test
 gem "yard", ">= 0.8.3"
 
 #authentication
-gem "devise", ">= 2.1.0"
+gem "devise", "~> 2.1"
 gem "devise_invitable", "~> 1.0.0"
 
 #search
