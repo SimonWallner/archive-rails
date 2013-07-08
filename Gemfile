@@ -1,15 +1,12 @@
 source 'https://rubygems.org'
 
+ruby "1.9.3"
 gem 'rails', '3.2.8'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-gem 'sqlite3'
 
 # js something somehting
-gem 'execjs' # pick a suitable js engine, rake needs it
-gem 'therubyracer'
+# gem 'execjs' # pick a suitable js engine, rake needs it
+# gem 'therubyracer'
 
 
 # Gems used only for assets and not required
@@ -26,6 +23,8 @@ end
 
 
 group :development do
+	gem 'sqlite3'
+	
 	gem 'guard-rspec'
 	gem 'guard-cucumber'
 	gem 'guard-livereload'
@@ -39,8 +38,9 @@ group :development do
 end
 
 group :production do
-	gem 'mysql2'
-	gem 'passenger', '~> 3.0.19s'
+	# gem 'mysql2'
+	gem 'pg' # heroku uses postgreSQL
+	# gem 'passenger', '~> 3.0.19s'
 end
 
 
@@ -57,7 +57,7 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 #gem 'unicorn'
 
 # Deploy with Capistrano
-gem 'capistrano'
+# gem 'capistrano'
 
 # To use debugger
 # gem 'debugger'
