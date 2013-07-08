@@ -48,7 +48,7 @@ When /^I enter company field with "(.*?)"$/ do |fill|
 end
 
 Then /^I create the company$/ do
-  click_link_or_button "Create Company"
+  click_link_or_button "Create Studio/Organisation Article"
 end
 
  
