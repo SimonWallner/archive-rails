@@ -45,6 +45,7 @@ end
 
 
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'mini_magick'
 
 # To use ActiveModel has_secure_password
