@@ -253,7 +253,7 @@ DEPENDENCIES
   devise_invitable (~> 1.0.0)
   email_spec (>= 1.2.1)
   factory_girl_rails (>= 3.3.0)
-  fog
+  fog (~> 1.12.1)
   growl
   guard-cucumber
   guard-livereload
