@@ -6,7 +6,6 @@ Feature: Company fields
   Background:
     Given I am signed in as User
  
- 
   @javascript
   Scenario: insert company with fields data
     Given I am on the company creation page

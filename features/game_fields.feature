@@ -10,16 +10,16 @@ Feature:
   Scenario: add game field data with valid data
     Given I am on the game creation page
     When I enter valid game data
-   	And I enter field with "Developer"
-	  And I enter field with "Publisher"
-	  And I enter field with "Distributor"
-	  And I enter field with "Credits"
-	  And I enter field with "Release Dates"
-	  And I enter field with "External Links"
-	  And I enter field with "Aggregate Scores"
-	  And I enter field with "Review Scores"
-	  And I enter field with "Series"
-	  And I enter field with "Userdefined"
+   	And I enter valid data into the field "Developer"
+	  And I enter valid data into the field "Publisher"
+	  And I enter valid data into the field "Distributor"
+	  And I enter valid data into the field "Credits"
+	  And I enter valid data into the field "Release Dates"
+	  And I enter valid data into the field "External Links"
+	  And I enter valid data into the field "Aggregate Scores"
+	  And I enter valid data into the field "Review Scores"
+	  And I enter valid data into the field "Series"
+	  And I enter valid data into the field "Userdefined"
 	  And I submit it
 	  Then I should see the saved Game fields
 
