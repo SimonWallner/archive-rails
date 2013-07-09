@@ -100,7 +100,7 @@
     </span>
 
       <div class="actions">
-    <%= f.submit %>
+    <%= f.submit @game.new_record? ? "Create Game Article" : "Update Game Article" %>
   </div>
 </div></div>
 

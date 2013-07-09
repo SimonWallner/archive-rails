@@ -27,13 +27,13 @@ Feature:
 	Scenario: add game field with token list
  		Given I am on the game creation page
 		When I enter valid game data
-		And I enter field with token list "Platform"
-		And I enter field with token list "Mode"
-		And I enter field with token list "Media"
-		And I enter field with token list "Genres"
-		And I enter field with token list "Tags"
+		And I enter tokens for "Platform"
+		And I enter tokens for "Mode"
+		And I enter tokens for "Media"
+		And I enter tokens for "Genres"
+		And I enter tokens for "Tags"
 		And I submit it
-		Then I should see the saved token list data
+		Then I should see the saved tokens
 
   @javascript
   Scenario: add Release Dates without day
