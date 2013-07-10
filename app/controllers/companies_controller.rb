@@ -115,6 +115,10 @@ class CompaniesController < ApplicationController
 
 	# PUT /companies/1
 	def update
+		puts "---------------------------------------"
+		puts params
+		puts "---------------------------------------"
+		
 		old = @@COMPANY_VERSIONER.current_version Company.find(params[:id])
 
 		@company = @@COMPANY_VERSIONER.new_version old, params
@@ -156,12 +160,6 @@ class CompaniesController < ApplicationController
 	
 
 	def add_founded(params)
-		param_founded = params[:founded]
-		if param_founded == nil
-			logger.debug "no founded param received"
-		end
-
-
 		cf = @company.founded
 		if(cf != nil)
 			logger.debug "founded is not nil"
@@ -169,37 +167,24 @@ class CompaniesController < ApplicationController
 			logger.debug nr_deleted.to_s + "deleted founded records"
 			@company = Company.find @company.id
 		end
+		
+		day = params[:day_founded].to_i
+		month = params[:month_founded].to_i
+		year = params[:year_founded].to_i
 
-		if param_founded == nil || param_founded.length < 2
-			logger.debug "param_founded not provided or to short"
-			return
-		end
-
-		logger.debug param_founded
-		json_object = JSON.parse param_founded
-		logger.debug json_object
-
-		if ( not json_object.is_a?( Hash ) )
-			logger.debug "json object is no Hash"
-			return
-		end
-
-		#params[:company][:founded] = json_object
-
+		# assign nil if a field is not given (field is -1 then (or "" ???))
 		cf = CompanyFounded.new
-		cf.year = json_object["year"].to_i
-		cf.month = json_object["month"].to_i unless json_object["month"] == nil
-		cf.day = json_object["day"].to_i unless json_object["day"] == nil
-		@company.build_founded :year => cf.year, :month => cf.month, :day => cf.day
+		cf.day = (day > 0 ? day : nil)
+		cf.month = (month > 0 ? month : nil)
+		if (year > 0)
+			cf.year = year
+			@company.build_founded :year => cf.year, :month => cf.month, :day => cf.day
+		else
+			@company.founded = nil
+		end
 	end
 
 	def add_defunct(params)
-		param_defunct = params[:defunct]
-		if param_defunct == nil
-			logger.debug "no defunct param received"
-		end
-
-
 		cd = @company.defunct
 		if(cd != nil && @company.id != nil)
 			logger.debug "defunct is not nil"
@@ -208,26 +193,19 @@ class CompaniesController < ApplicationController
 			@company = Company.find @company.id
 		end
 
-		if param_defunct == nil || param_defunct.length < 2
-			logger.debug "param_defunct not provided or to short"
-			return
-		end
+		day = params[:day_defunct].to_i
+		month = params[:month_defunct].to_i
+		year = params[:year_defunct].to_i
 
-		logger.debug param_defunct
-		json_object = JSON.parse param_defunct
-		logger.debug json_object
-
-		if ( not json_object.is_a?( Hash ) )
-			logger.debug "json object is no Hash"
-			return
-		end
-
-		#params[:company][:defunct] = json_object
+		# assign nil if a field is not given (field is -1 then)
 		cd = CompanyDefunct.new
-		cd.year = json_object["year"].to_i
-		cd.month = json_object["month"].to_i unless json_object["month"] == nil
-		cd.day = json_object["day"].to_i unless json_object["day"] == nil
-		cd.additional_info = json_object["additional_info"]
-		@company.build_defunct :year => cd.year, :month => cd.month, :day => cd.day, :additional_info => cd.additional_info
+		cd.day = (day > 0 ? day : nil)
+		cd.month = (month > 0 ? month : nil)
+		if (year > 0)
+			cd.year = year
+			@company.build_defunct :year => cd.year, :month => cd.month, :day => cd.day, :additional_info => cd.additional_info
+		else
+			@company.defunct = nil
+		end
 	end
 end
