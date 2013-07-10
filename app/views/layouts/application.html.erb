@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-<% if Rails.env.production? %>
+<% #if Rails.env.production? %>
 	<script type="text/javascript">
 	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', <%= ENV['GOOGLE_UA_ID'] %>]);
+	  _gaq.push(['_setAccount', '<%=ENV['GOOGLE_UA_ID']%>']);
 	  _gaq.push(['_trackPageview']);
 
 	  (function() {
@@ -12,7 +12,7 @@
 	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	  })();
 	</script>
-<% end %>
+<% #end %>
 
 <head>
   	<title>Game Archive</title>
