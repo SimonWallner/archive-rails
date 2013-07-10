@@ -25,7 +25,7 @@ GameArchive::Application.configure do
   # on heroku set the ENVs with 'heroku config:add FOO=bar'
   config.action_mailer.smtp_settings = {
     :address              => ENV['MAIL_SERVER'], # smtp.gmail.com
-    # :port                 => 587,
+    :port                 => 587,
     :domain               => ENV['MAIL_DOMAIN'], #example.com
     :user_name            => ENV['MAIL_USER'],
     :password             => ENV['MAIL_PWD'],
