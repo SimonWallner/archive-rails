@@ -180,5 +180,40 @@ Then /^I should see the saved tokens$/ do
 	end
 end
 
+When /^I enter only a year as the founding date$/ do
+	@year = 3000
+	fill_in "year_founded", :with => @year
+end
+
+Then /^I should see the founding year$/ do
+	page.should have_content("Founded: #{@year}")
+end
+
+When /^I enter only a year and moth as the founding date$/ do
+	@year = 3000
+	@month = 8
+	select(@month.to_s, :from => 'month_founded')
+	fill_in "year_founded", :with => @year
+end
+
+Then /^I should see the founding year and month$/ do
+	page.should have_content("Founded: #{@month}.#{@year}")
+end
+
+When /^I enter a full founding date$/ do
+	@year = 3000
+	@month = 8
+	@day = 21
+	select(@month.to_s, :from => 'month_founded')
+	select(@day.to_s, :from => 'day_founded')
+	fill_in "year_founded", :with => @year
+end
+
+Then /^I should see the full founding date$/ do
+	page.should have_content("Founded: #{@day}.#{@month}.#{@year}")
+end
+
+
+
 
  
