@@ -25,12 +25,14 @@ GameArchive::Application.configure do
   # on heroku set the ENVs with 'heroku config:add FOO=bar'
   config.action_mailer.smtp_settings = {
     :address              => ENV['MAIL_SERVER'], # smtp.gmail.com
-    :port                 => 587,
+    :port                 => ENV['MAIL_PORT'], # 587,
     :domain               => ENV['MAIL_DOMAIN'], #example.com
     :user_name            => ENV['MAIL_USER'],
     :password             => ENV['MAIL_PWD'],
     :authentication       => 'plain',
-    :enable_starttls_auto => true  }
+    :enable_starttls_auto => true
+	:openssl_verify_mode  => 'none'
+  }
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
   config.assets.compile = true
