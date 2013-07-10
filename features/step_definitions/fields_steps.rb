@@ -111,7 +111,6 @@ end
 #	 Scenario: add Release Dates without day
 Then /^I enter field of Release Dates without day$/ do	
 	within(".newFieldsDiv") do
-		sleep(1)
 		@day = "nil"
 		@month = "3"
 		@year = "2012"
@@ -128,7 +127,6 @@ end
 #		 Scenario: add Release Dates without month
 Then /^I enter field of Release Dates without month$/ do 
 	within(".newFieldsDiv") do
-		sleep(1)
 		@day = "12"
 		@month = "nil"
 		@year = "2012"
@@ -212,6 +210,25 @@ end
 Then /^I should see the full founding date$/ do
 	page.should have_content("Founded: #{@day}.#{@month}.#{@year}")
 end
+
+When /^I enter only the day as the founding date$/ do
+	@day = 21
+	select(@day.to_s, :from => 'day_founded')
+end
+
+When /^I should see an error message$/ do
+	# css converts it to upper case, still we have to test for the 'actual' text
+	page.should have_content("prohibited")
+	page.should have_content("from being saved")
+end
+
+When /^I enter a only the day and month as the founding date$/ do
+	@month = 8
+	@day = 21
+	select(@month.to_s, :from => 'month_founded')
+	select(@day.to_s, :from => 'day_founded')
+end
+
 
 
 

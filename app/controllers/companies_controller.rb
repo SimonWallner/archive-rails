@@ -115,10 +115,6 @@ class CompaniesController < ApplicationController
 
 	# PUT /companies/1
 	def update
-		puts "---------------------------------------"
-		puts params
-		puts "---------------------------------------"
-		
 		old = @@COMPANY_VERSIONER.current_version Company.find(params[:id])
 
 		@company = @@COMPANY_VERSIONER.new_version old, params
@@ -147,7 +143,7 @@ class CompaniesController < ApplicationController
 	
 	# POST games/1/report
 	def create_report		
-		# XXX Refactor using polymorphic model
+		# TODO Refactor using polymorphic model
 		report = Reportblockcontent.new(params[:report])
 		report.content_id = params[:id]
 		report.content_type = Reportblockcontent::COMPANY 
@@ -165,7 +161,6 @@ class CompaniesController < ApplicationController
 			logger.debug "founded is not nil"
 			nr_deleted = CompanyFounded.where(:company_id => @company.id).delete_all
 			logger.debug nr_deleted.to_s + "deleted founded records"
-			@company = Company.find @company.id
 		end
 		
 		day = params[:day_founded].to_i
@@ -176,7 +171,7 @@ class CompaniesController < ApplicationController
 		cf = CompanyFounded.new
 		cf.day = (day > 0 ? day : nil)
 		cf.month = (month > 0 ? month : nil)
-		if (year > 0)
+		if (day > 0 || month > 0 || year > 0)
 			cf.year = year
 			@company.build_founded :year => cf.year, :month => cf.month, :day => cf.day
 		else
@@ -186,24 +181,25 @@ class CompaniesController < ApplicationController
 
 	def add_defunct(params)
 		cd = @company.defunct
+		
 		if(cd != nil && @company.id != nil)
 			logger.debug "defunct is not nil"
 			nr_deleted = CompanyDefunct.where(:company_id => @company.id).delete_all
 			logger.debug nr_deleted.to_s + "deleted defunct records"
-			@company = Company.find @company.id
 		end
 
 		day = params[:day_defunct].to_i
 		month = params[:month_defunct].to_i
 		year = params[:year_defunct].to_i
 
-		# assign nil if a field is not given (field is -1 then)
+		# assign nil if a field is not given (field is -1 then (or "" ???))
 		cd = CompanyDefunct.new
 		cd.day = (day > 0 ? day : nil)
 		cd.month = (month > 0 ? month : nil)
-		if (year > 0)
+		if (day > 0 || month > 0 || year > 0)
 			cd.year = year
-			@company.build_defunct :year => cd.year, :month => cd.month, :day => cd.day, :additional_info => cd.additional_info
+			@company.build_defunct :year => cd.year, :month => cd.month,
+				:day => cd.day, :additional_info => params[:text_defunct]
 		else
 			@company.defunct = nil
 		end
