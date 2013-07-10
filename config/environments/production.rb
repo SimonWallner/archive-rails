@@ -30,7 +30,7 @@ GameArchive::Application.configure do
     :user_name            => ENV['MAIL_USER'],
     :password             => ENV['MAIL_PWD'],
     :authentication       => 'plain',
-    :enable_starttls_auto => true
+    :enable_starttls_auto => true,
 	:openssl_verify_mode  => 'none'
   }
 
