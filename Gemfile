@@ -38,9 +38,8 @@ group :development do
 end
 
 group :production do
-	# gem 'mysql2'
 	gem 'pg' # heroku uses postgreSQL
-	# gem 'passenger', '~> 3.0.19s'
+	gem 'newrelic_rpm'
 end
 
 
