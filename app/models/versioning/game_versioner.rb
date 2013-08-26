@@ -148,18 +148,18 @@ class GameVersioner < Versioner
 	private
 	def screenshot_versioning(oldVersion, newVersion, params)
 		# screenshots
-		# puts 'version screenshots'
+		puts 'version screenshots'
 		if params != nil
 			sp = params[:game][:screenshots_attributes]
 			new_sp = HashWithIndifferentAccess.new
-			# puts sp
+			puts sp
 			if sp != nil
 				count = 0
 				sp.each do |k, v|
 					id = v[:id]
 					image = v[:image]
 					destroyImage = v[:_destroy]
-					if destroyImage == "true"
+					if destroyImage == "1"
 						# puts "screenshot #{k} with id #{id} deleted"
 						next
 					elsif image == nil
