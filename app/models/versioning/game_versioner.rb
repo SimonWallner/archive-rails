@@ -148,11 +148,11 @@ class GameVersioner < Versioner
 	private
 	def screenshot_versioning(oldVersion, newVersion, params)
 		# screenshots
-		puts 'version screenshots'
+		# puts 'version screenshots'
 		if params != nil
 			sp = params[:game][:screenshots_attributes]
 			new_sp = HashWithIndifferentAccess.new
-			puts sp
+			# puts sp
 			if sp != nil
 				count = 0
 				sp.each do |k, v|
@@ -160,27 +160,27 @@ class GameVersioner < Versioner
 					image = v[:image]
 					destroyImage = v[:_destroy]
 					if destroyImage == "true"
-						puts "screenshot #{k} with id #{id} deleted"
+						# puts "screenshot #{k} with id #{id} deleted"
 						next
-					elsif image == ""
+					elsif image == nil
 						# old image
-						puts "screenshot #{k} with id #{id} is old -> copy to new version"
+						# puts "screenshot #{k} with id #{id} is old -> copy to new version"
 						old_ss = Screenshot.find(id.to_i)
 						newVersion.screenshots.push old_ss.copy_without_references unless old_ss == nil
 					else
 						# new screenshot -> leave in params
-						puts "screenshot #{k} with id #{id} is new -> leave in params on position #{count}"
+						# puts "screenshot #{k} with id #{id} is new -> leave in params on position #{count}"
 						new_sp[count.to_s] = sp[k]
 						count += 1
 					end
 				end
 				params[:game][:screenshots_attributes] = new_sp
 			end
-			puts sp
-			puts 'version screenshots end'
+			# puts sp
+			# puts 'version screenshots end'
 		else
 			# params nil -> just copy old screenshots
-			puts "just copy old screenshots"
+			# puts "just copy old screenshots"
 			oldVersion.screenshots.each do |os|
 				newVersion.screenshots.push os.copy_without_references
 			end
