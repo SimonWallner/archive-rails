@@ -1,15 +1,15 @@
 <p class="screenshotfields">
-  <%= builder.label :image, (File.basename builder.object.image_url.to_s) %>  <br/>
-  <%= if builder.object.image_url
-        image_tag builder.object.image_url.to_s, :class => 'thumb rounded'
-      end
-  %>
+	<%= builder.label :image, (File.basename builder.object.image_url.to_s) %>  <br/>
+	<%= if builder.object.image_url
+		image_tag builder.object.image_url.to_s, :class => 'thumb rounded'
+	end
+	%>
 
-	Select image to upload: <span class="field-help">(.jpg, .png, 400kb max)</span><br/>
-  <%= if not builder.object.image_url
-        builder.file_field :image
-      end
-  %><br />
+	<% if not builder.object.image_url %>
+		Select image to upload: <span class="field-help">(.jpg, .png, 400kb max)</span><br/>
+		<%= builder.file_field :image =%>
+	<% end %>
+<br />
   <%= link_to_remove_screenshot_fields "remove" , builder %>
 </p>
 
