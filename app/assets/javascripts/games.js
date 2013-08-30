@@ -76,11 +76,17 @@ $(document).ready(function() {
             if(input_field_name.lastIndexOf('s') !== (input_field_name.length - 1))
                 input_field_name = input_field_name + 's';
             $('.'+val+'_link').each(function(){
-                if($(this).val()){
+                if($(this).val()) {
+					// XXX
+					// hack ahead!
+					// the code below expects to find value where there is none
+					var value = $(this).prev().val() || $(this).prev().prev().val();
+					
+					
                     $('#'+input_field_name).val(
                         $('#'+input_field_name).val() +
-                        ($(this).prev().val()
-                            ? $(this).prev().val().replace('additional-info', $(this).next().val())
+                        (value
+                            ? value.replace('additional-info', $(this).next().val())
                             : $(this).val() + ':' + $(this).next().val() + ',' )
                     );
                 }
