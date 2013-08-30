@@ -42,20 +42,42 @@ $(document).ready(function() {
         $('#new_release_dates').val(datestring);
         $('#new_fields').val(userdefstring);
 
-        $.each(['developer','publisher','distributor','credits', 'series'], function(index, val){
-            var input_field_name = 'new_' + val;
-            if(input_field_name.lastIndexOf('s') !== (input_field_name.length - 1))
-                input_field_name = input_field_name + 's';
-            $('.'+val+'_link').each(function(){
-                if($(this).val()){
-                    $('#'+input_field_name).val(
-                        $('#'+input_field_name).val() +
-                        ($(this).prev().val()
-                            ? $(this).prev().val().replace('additional-info', $(this).next().val())
-                            : $(this).val() + ':' + $(this).next().val() + ',' )
-                    );
-                }
-            });
+		var formFields = [
+			{visibleFormName: 'developer', hiddenFormName: 'new_developers'},
+			{visibleFormName: 'publisher', hiddenFormName: 'new_publishers'},
+			{visibleFormName: 'distributor', hiddenFormName: 'new_distributors'},
+			{visibleFormName: 'credits', hiddenFormName: 'new_credits'},
+			{visibleFormName: 'series', hiddenFormName: 'new_series'}
+			];
+        $.each(formFields, function(_, field) {
+			var nameFields = $('.' + field.visibleFormName + '_link');
+			var infoFields = $('.' + field.visibleFormName + '_text');
+			
+			var dataArray = nameFields.toArray().reduce(function(previous, current, index) {
+				var datum = $(current).val();
+				
+				var infoValue = $(infoFields[index]).val()
+				if (infoValue) {
+					datum += ': ' + infoValue;
+				}
+				
+				previous.push(datum);
+				return previous;
+			}, []);
+			
+			$('#' + field.hiddenFormName).val(dataArray.join());
+
+			
+			// .each(function(_, subField){
+			//                 if($(subField).val()) {
+			// 		var hiddenFieldValue =
+			//                         ($(this).prev().val()
+			//                             ? $(this).prev().val().replace('additional-info', $(this).next().val())
+			//                             : $(this).val() + ':' + $(this).next().val() + ',' )
+			//                     
+			//                     $('#' + field.hiddenFormName).val(hiddenFieldValue);
+			//                 }
+			//             });
         });
 
         //escape linebreacks from json inputs
