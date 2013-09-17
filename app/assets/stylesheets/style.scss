@@ -117,7 +117,17 @@ $large-and-up: "screen and (min-width: 700px)";
     }
 }
 
-
+/* -- Mixins -- */
+@mixin comma-separated {
+	&:after {
+		content: ', ';
+	}
+	&:last-child {
+		&:after {
+			content: '';
+		};
+	}
+}
 
 @font-face {
   font-family: 'League Gothic';
@@ -135,7 +145,7 @@ body {
 	font-family: 'Bitter';
 	font-style: normal;
 	font-weight: 400;
-	background-color: $lightGrey;
+	z-index: 1;
 }
 
 div#body {
@@ -151,8 +161,8 @@ div.container {
   clear: both;
   display: block;
   overflow: hidden;
-  
-  
+  position: relative;
+    
   @media #{$small-and-below} {
     padding: 0px ($pagePadding / 1.5);
   }
@@ -160,6 +170,22 @@ div.container {
   @media #{$tiny-and-below} {
     padding: 0px ($pagePadding / 2);
   }
+}
+
+div#badge-container {
+	overflow: visible;
+	height: 0px;
+	z-index: 2;
+}
+
+div#beta-badge {
+	width: 70px;
+	margin-left: -30px;
+	margin-top: -5px;
+	
+	@media #{$small-and-below} {
+		margin-left: -25px;
+	}
 }
 
 div#header {
@@ -567,14 +593,7 @@ div#versions {
 	}
 	
 	li {
-		&:after {
-			content: ', ';
-		}
-		&:last-child {
-			&:after {
-				content: '';
-			};
-		}
+		@include comma-separated;
 	}
 	
 	form div {
@@ -742,6 +761,7 @@ a.tagit-close:hover span {
 	color: $middleGrey;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 0.9em;
+	display: inline;
 	p {
 		margin-bottom: 0.2em;
 	}
@@ -755,6 +775,15 @@ a.tagit-close:hover span {
 		padding-right: 0.3em;
 		color: black;
 		font-size: 0.95em;
+	}
+	
+	ul {
+		display: inline;
+	}
+	
+	li {
+		display: inline;
+		@include comma-separated
 	}
 }
 

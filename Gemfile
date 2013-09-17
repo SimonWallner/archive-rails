@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
-
 ruby "1.9.3"
+
 gem 'rails', '3.2.8'
 
 # heroku default production server
@@ -38,9 +38,8 @@ group :development do
 end
 
 group :production do
-	# gem 'mysql2'
 	gem 'pg' # heroku uses postgreSQL
-	# gem 'passenger', '~> 3.0.19s'
+	gem 'newrelic_rpm'
 end
 
 
@@ -64,7 +63,9 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # To use markup text format "markdown"
 gem 'redcarpet'
 gem 'albino'
+
 gem 'carrierwave'
+gem 'fog', '~> 1.12.1'
 
 # test
 gem "rspec-rails", ">= 2.10.1", :group => [:development, :test]
@@ -80,7 +81,7 @@ gem 'simplecov', :require => false, :group => :test
 gem "yard", ">= 0.8.3"
 
 #authentication
-gem "devise", ">= 2.1.0"
+gem "devise", "~> 2.1"
 gem "devise_invitable", "~> 1.0.0"
 
 #search

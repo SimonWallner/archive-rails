@@ -1,12 +1,12 @@
-<% if object.any? %>
+<% if list.any? %>
 	<div class="fact">
 	  <span class="label">
-	    <%= label.to_s %>:
+	    <%= label.to_s.pluralize(list.count) %>:
 	  </span>
 	  <ul>
-	    <% object.each do |f| %>
+	    <% list.each do |date| %>
 	        <li>
-	          <%= format_date f %>
+	          <%= format_date date %>
 	        </li>
 	    <% end %>
 	  </ul>

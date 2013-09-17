@@ -14,13 +14,25 @@ GameArchive::Application.configure do
   # Compress JavaScripts and CSS
   config.assets.compress = false
   
-  config.action_mailer.default_url_options = {:host => 'archive.gamelab.at:8080'}
+  config.action_mailer.default_url_options = {:host => 'archive.gamelab.at'}
   # ActionMailer Config
   # Setup for production - deliveries, no errors raised
-  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default :charset => "utf-8"
+
+  # on heroku set the ENVs with 'heroku config:add FOO=bar'
+  config.action_mailer.smtp_settings = {
+    :address              => ENV['MAIL_SERVER'], # smtp.gmail.com
+    :port                 => ENV['MAIL_PORT'], # 587,
+    :domain               => ENV['MAIL_DOMAIN'], #example.com
+    :user_name            => ENV['MAIL_USER'],
+    :password             => ENV['MAIL_PWD'],
+    :authentication       => 'plain',
+    :enable_starttls_auto => true,
+	:openssl_verify_mode  => 'none'
+  }
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
   config.assets.compile = true

@@ -11,46 +11,24 @@
 	<h1><%= @game.title %></h1>
 
 	<div class="fact-box">
-			<%= render :template => "facts/_mixed_field", :locals => { :type => :Developer, :object => @game, :label => "Developer" } %>
-			<%= render :template => "facts/_mixed_field", :locals => { :type => :Publisher, :object => @game, :label => "Publisher" } %>
-			<%= render :template => "facts/_mixed_field", :locals => { :type => :Distributor, :object => @game, :label => "Distributor" } %>
-			<%= render :template => "facts/_mixed_field", :locals => { :type => :Credits, :object => @game, :label => "Credits" } %>
-			<%= render :template => "facts/_dates", :locals => { :object => @game.release_dates, :label => "Release Dates" } %>
-			<%= render :template => "facts/_mixed_field", :locals => { :type => :Series, :object => @game, :label => "Series" } %>
-		<% if @game.genres.any? %>
-			<strong>Genre</strong>:
-			<% @game.genres.each do |genre| %>
-				<%= genre.name%>
-			<% end %><br/>
-		<% end %>
-		<% if @game.platforms.any? %>
-			<strong>Platform</strong>:
-			<% @game.platforms.each do |platform| %>
-				<%= platform.name%>
-			<% end %><br/>
-		<% end %>
-		<% if @game.modes.any? %>
-			<strong>Mode</strong>:
-			<% @game.modes.each do |mode| %>
-				<%= mode.name%>
-			<% end %><br/>
-		<% end %> 
-		<% if @game.media.any? %>
-			<strong>Media</strong>:
-			<% @game.media.each do |medium| %>
-				<%= medium.name%>
-			<% end %><br/>
-		<% end %> 
-		<% if @game.tags.any? %>
-			<strong>Tag</strong>:
-			<% @game.tags.each do |tag| %>
-				<%= tag.name%>
-			<% end %><br/>
-		<% end %>
-			<%= render :template => "facts/_standard", :locals => { :object => @game, :label => "External Links" } %>
-			<%= render :template => "facts/_standard", :locals => { :object => @game, :label => "Aggregate Scores" } %>
-			<%= render :template => "facts/_standard", :locals => { :object => @game, :label => "Review Scores" } %>
-			<%= render :template => "facts/_user_defined", :locals => { :object => @game } %>
+		<%= render :template => "facts/_mixed_field", :locals => { :type => :Developer, :object => @game, :label => "Developer" } %>
+		<%= render :template => "facts/_mixed_field", :locals => { :type => :Publisher, :object => @game, :label => "Publisher" } %>
+		<%= render :template => "facts/_mixed_field", :locals => { :type => :Distributor, :object => @game, :label => "Distributor" } %>
+		<%= render :template => "facts/_mixed_field", :locals => { :type => :Credits, :object => @game, :label => "Credits" } %>
+		<%= render :template => "facts/_dates", :locals => { :list => @game.release_dates, :label => "Release Date" } %>
+		<%= render :template => "facts/_mixed_field", :locals => { :type => :Series, :object => @game, :label => "Series" } %>
+	
+		<%= render :template => "facts/_list", :locals => {:list => @game.genres, :label => "Genre"} %>
+		<%= render :template => "facts/_list", :locals => {:list => @game.platforms, :label => "Platform"} %>
+		<%= render :template => "facts/_list", :locals => {:list => @game.modes, :label => "Mode"} %>
+		<%= render :template => "facts/_list", :locals => {:list => @game.media, :label => "Media"} %>
+		<%= render :template => "facts/_list", :locals => {:list => @game.tags, :label => "Tag"} %>
+
+		
+		<%= render :template => "facts/_standard", :locals => { :object => @game, :label => "External Links" } %>
+		<%= render :template => "facts/_standard", :locals => { :object => @game, :label => "Aggregate Scores" } %>
+		<%= render :template => "facts/_standard", :locals => { :object => @game, :label => "Review Scores" } %>
+		<%= render :template => "facts/_user_defined", :locals => { :object => @game } %>
 	</div>
 
 	<div class="text">
