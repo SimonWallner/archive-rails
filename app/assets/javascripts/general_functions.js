@@ -41,7 +41,8 @@ function loadfields(jsonurl){
 					str = str + val[x].name + ',';
 				str = str.substr(0, str.length -1);
 
-				addConcreteField(select_elem, false, str, true);
+				addConcreteField({selectedElement: select_elem, deleteCurrentField: false,
+					value: str, onload: true});
 
 			}else if($.inArray(i,['release_dates']) >= 0 ){
 				addField($('#addFieldButton'), 'only_label:Release Dates');
@@ -49,7 +50,8 @@ function loadfields(jsonurl){
 				select_elem.attr('value', 'release dates');
 
 				for (var x = 0; x < val.length; x++){
-					addConcreteField(select_elem, false, false, true);
+					addConcreteField({selectedElement: select_elem, deleteCurrentField: false,
+								value: false, onlaod: true});
 					$('#year_release_date'+(x+1)).val(val[x].year);
 					if(val[x].month)
 						$('#month_release_date'+(x+1)).val(val[x].month);
@@ -57,7 +59,8 @@ function loadfields(jsonurl){
 						$('#day_release_date'+(x+1)).val(val[x].day);
 					$('#text_release_date'+(x+1)).val(val[x].additional_info);
 				}
-				addConcreteField(select_elem, false, false, true);
+				addConcreteField({selectedElement: select_elem, deleteCurrentField: false,
+					value: false, onload: true});
 
 			}else if($.inArray(i,['fields']) >= 0){
 				for (var x = 0; x < val.length; x++){
@@ -67,7 +70,8 @@ function loadfields(jsonurl){
 							addField($('#addFieldButton'), 'only_label:'+val[x].name);
 							var select_elem = $('div.newFieldsDiv').find('.newField:last');
 							select_elem.attr('value', val[x].name.toLowerCase());
-							addConcreteField(select_elem, false, false, true);
+							addConcreteField({selectedElement: select_elem, deleteCurrentField: false,
+								value: false, onlaod: true});
 						}
 						var input = $('#'+fname);
 						if(input.val()){
@@ -79,7 +83,8 @@ function loadfields(jsonurl){
 						addField($('#addFieldButton'), usedfields);
 						var select_elem = $('div.newFieldsDiv').find('select:last');
 						select_elem.find('option[value="userdefined"]').attr('selected', true);
-						addConcreteField(select_elem, false, false, true);
+						addConcreteField({selectedElement: select_elem, deleteCurrentField: false,
+								value: false, onlaod: true});
 
 						$('#name_userdefined'+(x+1)).val(val[x].name);
 						$('#content_userdefined'+(x+1)).val(val[x].content);
@@ -93,7 +98,8 @@ function loadfields(jsonurl){
 						addField($('#addFieldButton'), 'only_label:'+value);
 						var select_elem = $('div.newFieldsDiv').find('.newField:last');
 						select_elem.attr('value', value);
-						addConcreteField(select_elem, false, false, true);
+						addConcreteField({selectedElement: select_elem, deleteCurrentField: false,
+								value: false, onlaod: true});
 						$('#'+input_field_name).val('')
 					});
 					setTimeout(function() {
@@ -116,26 +122,30 @@ function loadfields(jsonurl){
 					addField($('#addFieldButton'), 'only_label:External Links');
 					var select_elem = $('div.newFieldsDiv').find('.newField:last');
 					select_elem.attr('value', 'external links');
-					addConcreteField(select_elem, false, false, true);
+					addConcreteField({selectedElement: select_elem, deleteCurrentField: false,
+								value: false, onlaod: true});
 
 				}else if(page == 'company'){
 					addField($('#addFieldButton'), 'only_label:External Links');
 					var select_elem = $('div.newFieldsDiv').find('.newField:last');
 					select_elem.attr('value', 'external links');
-					addConcreteField(select_elem, false, false, true);
+					addConcreteField({selectedElement: select_elem, deleteCurrentField: false,
+								value: false, onlaod: true});
 
 					// founded und locations falls diese nicht so vorhanden sind
 					if(!data.founded){
 						addField($('#addFieldButton'), 'only_label:Founded');
 						var select_elem = $('div.newFieldsDiv').find('.newField:last');
 						select_elem.attr('value', 'founded');
-						addConcreteField(select_elem, false, false, true);
+						addConcreteField({selectedElement: select_elem, deleteCurrentField: false,
+								value: false, onlaod: true});
 					}
 					if(!data.locations){
 						addField($('#addFieldButton'), 'only_label:Locations');
 						var select_elem = $('div.newFieldsDiv').find('.newField:last');
 						select_elem.attr('value', 'location');
-						addConcreteField(select_elem, false, false, true);
+						addConcreteField({selectedElement: select_elem, deleteCurrentField: false,
+								value: false, onlaod: true});
 					}
 				}
 
@@ -195,7 +205,8 @@ function loadfields(jsonurl){
 				addField($('#addFieldButton'), 'only_label:Official Name');
 				var select_elem = $('div.newFieldsDiv').find('.newField:last');
 				select_elem.attr('value', 'official name');
-				addConcreteField(select_elem, false, val, true);
+				addConcreteField({selectedElement: select_elem, deleteCurrentField: false,
+									value: val, onload: true});
 
 			}  else if($.inArray(i,['locations']) >= 0){
 				addField($('#addFieldButton'), 'only_label:Locations');
@@ -208,14 +219,16 @@ function loadfields(jsonurl){
 					  locationstring = locationstring + ':'+dat.additional_info;
 				   locationstring = locationstring + ',';
 				});
-				addConcreteField(select_elem, false, locationstring, true);
+				addConcreteField({selectedElement: select_elem, deleteCurrentField: false,
+									value: locationstring, onload: true});
 
 			}  else if($.inArray(i,['founded','defunct']) >= 0 ){
 				addField($('#addFieldButton'), 'only_label:'+i);
 				var select_elem = $('div.newFieldsDiv').find('.newField:last');
 				select_elem.attr('value', i);
 
-				addConcreteField(select_elem, false, false, true);
+				addConcreteField({selectedElement: select_elem, deleteCurrentField: false,
+								value: false, onlaod: true});
 				$('#year_'+i).val(val.year);
 				if(val.month)
 					$('#month_'+i).val(val.month);
@@ -246,7 +259,7 @@ function addField(button_element, types){
 		$.each($('.newField'),function(){
 			$(this).unbind("change");
 			$(this).change([this],function(){
-				addConcreteField(this, true);
+				addConcreteField({selectedElement: this, deleteCurrentElement: true});
 				$('#newFieldId').after( help[$('#newFieldId').val()] );
 				$(".newhelp").tooltipsy({delay: 600}).removeClass("newhelp");
 			});
@@ -255,33 +268,43 @@ function addField(button_element, types){
 }
 var anzDateInputs=0;
 var anzUserDefined=0;
-// ein feld im select ausgewählt => das konkrete feld hinzufügen
-function addConcreteField(select_element, deletecurrent){addConcreteField(select_element, deletecurrent, false, false)}
-function addConcreteField(select_element, deletecurrent, value){addConcreteField(select_element, deletecurrent, value, false)}
-function addConcreteField(select_element, deletecurrent, value, onload){
-	if(deletecurrent)
-		$(select_element).parent().find('> :not(select:first)').remove();
-	var field_name = $(select_element).val();
-	var input_field_name = 'new_' + field_name.replace(' ','_');
-	if(input_field_name.lastIndexOf('s') !== (input_field_name.length - 1))
-		input_field_name = input_field_name + 's';
-	if(field_name == 'remove'){																		 // remove field
-		$(select_element).parent().remove()
 
-	}else if($.inArray(field_name,['release dates']) >= 0){											  // dates
+// ein feld im select ausgewählt => das konkrete feld hinzufügen
+/**
+ * @param selectedElement
+ * @param deleteCurrentField [true, false]
+ * @param value
+ * @param onload
+ }
+ */
+var addConcreteField = function(params){
+	if(params.deleteCurrentField === true) {
+		$(params.selectedElement).parent().find('> :not(select:first)').remove();
+	}
+
+	var field_name = $(params.selectedElement).val();
+	var input_field_name = 'new_' + field_name.replace(' ','_');
+
+	if (input_field_name.lastIndexOf('s') !== (input_field_name.length - 1)) {
+		input_field_name = input_field_name + 's';
+	}
+
+	if (field_name == 'remove') { // remove field
+		$(params.selectedElement).parent().remove();
+	} else if ($.inArray(field_name,['release dates']) >= 0) { // dates
 		anzDateInputs++;
 		var html = '<div class="release_dates_div" id="release_dates_div">';
 		html = html + addDateInput('release_date'+anzDateInputs);
 		html = html + '<input id="text_release_date'+anzDateInputs+'" name="input_field_name'+anzDateInputs+'" type="text">';
-		html = html + '<button type="button" onclick="addConcreteField(this,false);" value="release dates"> + </button></div>';
-		$(select_element).parent().append(html);
+		html = html + '<button type="button" onclick="addConcreteField({selectedElement: this, deleteCurrentField: false});" value="release dates"> + </button></div>';
+		$(params.selectedElement).parent().append(html);
 
-	}else if($.inArray(field_name,['platform','mode','media', 'genres', 'tags']) >= 0){				 // tokenlists
-		$.getJSON('/ajax.json?type=all&field='+field_name, function(data){
+	} else if ($.inArray(field_name,['platform','mode','media', 'genres', 'tags']) >= 0) { // tokenlists
+		$.getJSON('/ajax.json?type=all&field='+field_name, function(data) {
 			var availableTags = data;
-			$(select_element).parent().append($('#all_'+field_name));
-			$(select_element).parent().append('<input id="'+input_field_name+'" name="'+input_field_name+'" type="text" value="' +
-				(value ? value : '') + '">');
+			$(params.selectedElement).parent().append($('#all_'+field_name));
+			$(params.selectedElement).parent().append('<input id="'+input_field_name+'" name="'+input_field_name+'" type="text" value="' +
+				(params.value ? params.value : '') + '">');
 			$('#'+input_field_name).tagit({caseSensitive: false, availableTags: availableTags, allowSpaces: true});
 
 			$('#'+input_field_name+'_input').focus(function() {
@@ -293,7 +316,7 @@ function addConcreteField(select_element, deletecurrent, value, onload){
 					$('input, textarea').unbind('.allavailable');
 				});
 			});
-			if(onload)	{
+			if(params.onload)	{
 				$(':input:enabled:visible:first').focus();
 				$('html, body').animate({scrollTop: '0px'}, 0);
 			}else
@@ -302,32 +325,32 @@ function addConcreteField(select_element, deletecurrent, value, onload){
 
 	}else if($.inArray(field_name,['userdefined']) >= 0){											 // markup input
 		anzUserDefined++;
-		$(select_element).parent().append('<input id="name_'+field_name.replace(' ','_')+anzUserDefined+'" name="name_'+field_name.replace(' ','_')+anzUserDefined+'" value="Title">' +
+		$(params.selectedElement).parent().append('<input id="name_'+field_name.replace(' ','_')+anzUserDefined+'" name="name_'+field_name.replace(' ','_')+anzUserDefined+'" value="Title">' +
 										  '<textarea cols="40" rows="3" id="content_'+field_name+anzUserDefined+'" name="content_'+field_name+anzUserDefined+'"></textarea>');
 		at_autocomp(field_name+'_dummy', $('#'+input_field_name), '/ajax.json');
 
 	}else if($.inArray(field_name,['official name']) >= 0){											 // normal input
-		$(select_element).parent().append('<input id="'+field_name.replace(' ','_')+'" name="company['+field_name.replace(' ','_')+ ']" value="' +
-			(value ? value : '') + '">');
+		$(params.selectedElement).parent().append('<input id="'+field_name.replace(' ','_')+'" name="company['+field_name.replace(' ','_')+ ']" value="' +
+			(params.value ? params.value : '') + '">');
 
 	}else if($.inArray(field_name,['defunct','founded']) >= 0){										 // date + string
-		$(select_element).parent().append('<br/>'+addDateInput(field_name));
+		$(params.selectedElement).parent().append('<br/>'+addDateInput(field_name));
 		if(field_name == 'defunct')
-			$(select_element).parent().append('<input id="text_'+field_name+'" name="text_'+field_name+'" type="text">');
+			$(params.selectedElement).parent().append('<input id="text_'+field_name+'" name="text_'+field_name+'" type="text">');
 
 	}else if($.inArray(field_name,['external links', 'aggregate scores', 'review scores', 'location']) >= 0){	 // external links only
-		$(select_element).parent().append('<textarea cols="40" rows="3" id="'+input_field_name+'" name="'+input_field_name+'">' +
-			(value ? value : '') +
+		$(params.selectedElement).parent().append('<textarea cols="40" rows="3" id="'+input_field_name+'" name="'+input_field_name+'">' +
+			(params.value ? params.value : '') +
 			'</textarea>');
 
 	}else if($.inArray(field_name,['developer','publisher','distributor','credits','series']) >= 0){		  // dev/comp/game references + add info
 
-		var	   html = '<div class="'+field_name+'_div" id="'+field_name+'_div">';
+		var html = '<div class="'+field_name+'_div" id="'+field_name+'_div">';
 		html = html + '<input class="'+field_name+'_hidden" name="'+field_name+'_hidden" type="hidden">';
 		html = html + '<input class="'+field_name+'_link mixin" name="'+field_name+'_link" type="text">';
 		html = html + '<input class="'+field_name+'_text mixin" name="'+field_name+'_text" type="text">';
-		html = html + '<button type="button" onclick="addConcreteField(this,false);" value="'+field_name+'"> + </button></div>';
-		$(select_element).parent().append(html);
+		html = html + '<button type="button" onclick="addConcreteField({selectedElement: this, deleteCurrentField: false});" value="'+field_name+'"> + </button></div>';
+		$(params.selectedElement).parent().append(html);
 		$('.'+field_name+'_link').autocomplete({
 			source: field_name == 'series' ? '/ajax.json?type=game' : '/ajax.json?type=developer',
 			minLength: 1,
@@ -338,7 +361,7 @@ function addConcreteField(select_element, deletecurrent, value, onload){
 			}
 		});
 	}
-	if(onload)
+	if(params.onload)
 		$(':input:enabled:visible:first').focus();
 }
 
