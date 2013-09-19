@@ -29,8 +29,9 @@ var loadfields = function(jsonurl) {
 	$.getJSON(jsonurl, function(data) {
 		jQuery.each(data, function(i, val) {
 			if ($.inArray(i,['platforms','modes','media', 'genres', 'tags']) >= 0) {
-				if ($.inArray(i,['platforms','modes']) >= 0)
+				if ($.inArray(i,['platforms','modes']) >= 0) {
 					i = i.substr(0, i.length - 1);
+				}
 				addField($('#addFieldButton'), 'only_label:' + i);
 				var select_elem = $('div.newFieldsDiv').find('.newField:last');
 				select_elem.attr('value', i);
@@ -253,8 +254,10 @@ var addField = function(button_element, types) {
 	$('#newFieldId').removeAttr('id');
 	if (types.indexOf('only_label') == 0 ) {
 		var html = '<div class="addedField">';
-		html += '<label class="newField" id="newFieldId" value="'
-			+ types.split(':')[1] + '">' + types.split(':')[1].charAt(0).toUpperCase() + types.split(':')[1].slice(1) + '</label></div>';
+		html += '<label class="newField" id="newFieldId" value="' + types.split(':')[1] + '">';
+		html += types.split(':')[1].charAt(0).toUpperCase() + types.split(':')[1].slice(1);
+		html += '</label></div>';
+		
 		$(button_element).parent().find('.newFieldsDiv').append(html);
 		$('#newFieldId').parent().append(help[$('#newFieldId').attr('value').toLowerCase()]);
 		$(".newhelp").tooltipsy({delay: 600}).removeClass("newhelp");

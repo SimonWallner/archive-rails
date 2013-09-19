@@ -95,14 +95,14 @@ $(document).ready(function() {
 
 
         //escape linebreacks from json inputs
-        $('[id^="new_"]').each(function(){
+        $('[id^="new_"]').each(function() {
             $(this).val($(this).val().replace(/\n/g, "\\n"));
         });
 
         event.preventDefault();
 
         $(this).ajaxSubmit(
-            function( data ) {
+            function(data) {
                 var content = $( data ).find( '#error_explanation' );
                 if(content.length > 0){
                     $('#error_explanation').remove();
