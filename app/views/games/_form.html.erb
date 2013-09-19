@@ -18,15 +18,15 @@
 	
 	<div class="field">
 		<%= f.label :description, 'Game Description: '%><br />
-	<div class="field-help">
-		<p>
-			You can use simplified markup to structure the text. <strong>Headings</strong> are created by prefixing a line with <span class="code">#</span>. <span class="code"># First Heading</span> or <span class="code">## Second Heagin</span> and so forth. <strong>Paragraphs</strong> are automatically created by inserting new-lines in the text and text can be <strong>emphasised</strong> or set in <strong>bold face</strong> with <span class="code">*emphasis*</span> and <span class="code">**bold face**</span>. <strong>Lists</strong> are created with <span class="code">* list item</span> or <span class="code">1. list item</span>. You can add <strong>cross references</strong> to other articles by typing the <span class="code">@</span> character followed by the first letters of the article you want to link to. You can also manually add <strong>links</strong> in the following form <span class="code">[Description](url)</span> e.g. <span class="code">[Wikipedia](http://www.wikipedia.org/)</span>
-		</p> 
-	</div>
+		<div class="field-help">
+			<p>
+				You can use simplified markup to structure the text. <strong>Headings</strong> are created by prefixing a line with <span class="code">#</span>. <span class="code"># First Heading</span> or <span class="code">## Second Heagin</span> and so forth. <strong>Paragraphs</strong> are automatically created by inserting new-lines in the text and text can be <strong>emphasised</strong> or set in <strong>bold face</strong> with <span class="code">*emphasis*</span> and <span class="code">**bold face**</span>. <strong>Lists</strong> are created with <span class="code">* list item</span> or <span class="code">1. list item</span>. You can add <strong>cross references</strong> to other articles by typing the <span class="code">@</span> character followed by the first letters of the article you want to link to. You can also manually add <strong>links</strong> in the following form <span class="code">[Description](url)</span> e.g. <span class="code">[Wikipedia](http://www.wikipedia.org/)</span>
+			</p> 
+		</div>
 		<%= f.text_area :description %>
 	</div>
-	<div class="field">
 
+	<div class="field">
 		<%= f.label :image, 'Teaser Image: ' %><span class="field-help">This image is shown on the overview page and on top of this article.</span><br />
 		<div class="field" id="profilepicfields">
 			Currently selected image:
@@ -43,7 +43,7 @@
 		<div class="field" >
 			<!-- iterate through all the available videos for a game and create a field for them
 			<f.text_area :video mit id!? > <remove button>
-	 end	 -->
+			end	 -->
 			<%= f.label 'Embed Videos: ' %><span class="field-help">Embed YouTube of Vimeo videos by pasting the video url in the below field. CLick the "Add Video" link to add videos.</span>
 			<div id="videos" >
 				<%= f.fields_for :videos do |builder| %>
@@ -63,44 +63,59 @@
 			</div>
 		</div>
 
-	<div>
-	<div class="newFieldsDiv">
-		<script type="text/javascript">
-			loadfields('<%= begin game_url rescue new_game_url end %>.json');
-		</script>
+		<div>
+			<!-- 
+			<div class="newFieldsDiv">
+				<script type="text/javascript">
+					loadfields('<%= begin game_url rescue new_game_url end %>.json');
+				</script>
+			</div>
+			<%= 
+				submit_tag "Add Field", :type => 'button', :id => 'addFieldButton' ,
+					:onclick => 'addField(this,gamefields);'
+			%> -->
+			
+
+			<%
+				MixedFieldType.all.each do |type| %>
+					<%= type.name %>
+					<% @game.mixed_fields.where(mixed_field_type_id: type.id).each do |entry| %>
+						<%= entry %>
+					<% end %>
+					<br>
+				<% end
+			%>
+			
+			<!-- TODO
+				fix genres, etc...
+				seems like the actual forms are generated with js -->
+			<div class="field-help" id="all_genres">
+			available:
+				<%= render partial: 'list', locals: {list: Genre.all} %>
+			</div>
+
+			<div id="all_platform" class="field-help">
+				available:
+				<%= render partial: 'list', locals: {list: Platform.all} %>
+			</div>
+
+			<div id="all_mode" class="field-help">
+				available:
+				<%= render partial: 'list', locals: {list: Mode.all} %>
+			</div>
+			<div id="all_media" class="field-help">
+				available:
+				<%= render partial: 'list', locals: {list: Medium.all} %>
+			</div>
+			<div id="all_tags" class="field-help">
+				available:
+				<%= render partial: 'list', locals: {list: Tag.all} %>
+			</div>
+
+			<div class="actions">
+			<%= f.submit @game.new_record? ? "Create Game Article" : "Update Game Article" %>
+			</div>
+		</div>
 	</div>
-		<%= 
-			submit_tag "Add Field", :type => 'button', :id => 'addFieldButton' ,
-				:onclick => 'addField(this,gamefields);'
-		%>
-
-		<div class="field-help" id="all_genres">
-		available:
-			<%= render partial: 'list', locals: {list: Genre.all} %>
-		</div>
-
-		<div id="all_platform" class="field-help">
-			available:
-			<%= render partial: 'list', locals: {list: Platform.all} %>
-		</div>
-
-		<div id="all_mode" class="field-help">
-			available:
-			<%= render partial: 'list', locals: {list: Mode.all} %>
-		</div>
-		<div id="all_media" class="field-help">
-			available:
-			<%= render partial: 'list', locals: {list: Medium.all} %>
-		</div>
-		<div id="all_tags" class="field-help">
-			available:
-			<%= render partial: 'list', locals: {list: Tag.all} %>
-		</div>
-
-		<div class="actions">
-		<%= f.submit @game.new_record? ? "Create Game Article" : "Update Game Article" %>
-		</div>
-	</div>
-</div>
 
 <% end %>

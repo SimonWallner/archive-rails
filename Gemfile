@@ -35,6 +35,8 @@ group :development do
 	gem 'rb-fchange', :require => false
 	# add growl support
 	gem 'growl', :require => false
+
+	gem "rails-erd"
 end
 
 group :production do
