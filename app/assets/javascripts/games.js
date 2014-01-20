@@ -12,31 +12,31 @@ $(document).ready(function() {
     $('form#edit-game').submit(function () {
         var anzdates = $('[id^="year_release_date"]').length;
         var datestring = '';
-        for(var i = 1; i<=anzdates; i++){
-            if($('#year_release_date'+i).val())
-                datestring = datestring + $('#day_release_date'+i).val() +':'+
-                                          $('#month_release_date'+i).val() +':'+
-                                          $('#year_release_date'+i).val() +':'+
-                                          $('#text_release_date'+i).val() +',';
+        for(var i = 1; i <= anzdates; i++){
+            if($('#year_release_date' + i).val())
+                datestring = datestring + $('#day_release_date' + i).val() + ':' +
+                                          $('#month_release_date' + i).val() + ':' +
+                                          $('#year_release_date' + i).val() + ':' +
+                                          $('#text_release_date' + i).val() + ',';
         }
         datestring = datestring.substr(0, datestring.length -1);
 
         var anzuserdef = $('[id^="name_userdefined"]').length;
         var userdefstring = '';
-        for(var i = 1; i<=anzuserdef; i++){
-            userdefstring = userdefstring + '{"name":"'+$('#name_userdefined'+i).val() +'",' +
-                                            '"content":"'+$('#content_userdefined'+i).val() +'"},';
+        for(var i = 1; i <= anzuserdef; i++){
+            userdefstring = userdefstring + '{"name":"' + $('#name_userdefined' + i).val() + '",' +
+                                            '"content":"' + $('#content_userdefined' + i).val() + '"},';
         }
         if($('#new_external_links').length > 0 && $('#new_external_links').val().length > 0){
-            userdefstring = userdefstring + '{"name":"External Links","content":"'+$('#new_external_links').val()+'"},';
+            userdefstring = userdefstring + '{"name":"External Links","content":"' + $('#new_external_links').val() + '"},';
         }
         if($('#new_aggregate_scores').length > 0 && $('#new_aggregate_scores').val().length > 0){
-            userdefstring = userdefstring + '{"name":"Aggregate Scores","content":"'+$('#new_aggregate_scores').val()+'"},';
+            userdefstring = userdefstring + '{"name":"Aggregate Scores","content":"' + $('#new_aggregate_scores').val() + '"},';
         }
         if($('#new_review_scores').length > 0 && $('#new_review_scores').val().length > 0){
-            userdefstring = userdefstring + '{"name":"Review Scores","content":"'+$('#new_review_scores').val()+'"},';
+            userdefstring = userdefstring + '{"name":"Review Scores","content":"' + $('#new_review_scores').val() + '"},';
         }
-        userdefstring = '[' + userdefstring.substr(0,userdefstring.length-1) + ']';
+        userdefstring = '[' + userdefstring.substr(0,userdefstring.length -1) + ']';
 
         $('input[type="hidden"][id^="new_"]').val('');
         $('#new_release_dates').val(datestring);
@@ -75,7 +75,7 @@ $(document).ready(function() {
             var input_field_name = 'new_' + val;
             if(input_field_name.lastIndexOf('s') !== (input_field_name.length - 1))
                 input_field_name = input_field_name + 's';
-            $('.'+val+'_link').each(function(){
+            $('.' + val + '_link').each(function(){
                 if($(this).val()) {
 					// XXX
 					// hack ahead!
@@ -83,8 +83,8 @@ $(document).ready(function() {
 					var value = $(this).prev().val() || $(this).prev().prev().val();
 					
 					
-                    $('#'+input_field_name).val(
-                        $('#'+input_field_name).val() +
+                    $('#' + input_field_name).val(
+                        $('#' + input_field_name).val() +
                         (value
                             ? value.replace('additional-info', $(this).next().val())
                             : $(this).val() + ':' + $(this).next().val() + ',' )
@@ -103,7 +103,7 @@ $(document).ready(function() {
 
         $(this).ajaxSubmit(
             function(data) {
-                var content = $( data ).find( '#error_explanation' );
+                var content = $(data).find( '#error_explanation' );
                 if(content.length > 0){
                     $('#error_explanation').remove();
                     $('form').append( content );

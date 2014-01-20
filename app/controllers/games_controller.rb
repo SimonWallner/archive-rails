@@ -287,6 +287,8 @@ class GamesController < ApplicationController
 		end
 	end
 
+# RERACTOR:
+# explicitly pass @game as a parameter to avoid global vars.
 	# takes 2 arguments:
 	# mixed_field_string represents the string which is sent from the client, which represents a mixed field
 	# mixed_field_type represents the mixed_field_type object
