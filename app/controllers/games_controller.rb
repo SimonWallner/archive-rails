@@ -78,6 +78,7 @@ class GamesController < ApplicationController
 	def edit
 		@genres = Genre.all
 		@game = @@GAME_VERSIONER.current_version Game.find(params[:id])
+		@releaseDates = @game.release_dates
 		@help = nil # creating var so that I can assign it in the view. might want to refactor that
 	end
 	
