@@ -79,6 +79,23 @@ class GamesController < ApplicationController
 		@genres = Genre.all
 		@game = @@GAME_VERSIONER.current_version Game.find(params[:id])
 		@releaseDates = @game.release_dates
+		@externalLinks = @game.fields.where(name: 'External Links')
+		
+		@genres = @game.genres.map{|element| element.name}.join(', ')
+		@allGenres = Genre.all
+		
+		@tags = @game.tags.map{|element| element.name}.join(', ')
+		@allTags = Tag.all
+
+		@media = @game.media.map{|element| element.name}.join(', ')
+		@allMedia = Medium.all
+
+		@modes = @game.modes.map{|element| element.name}.join(', ')
+		@allModes = Mode.all
+
+		@platform = @game.platforms.map{|element| element.name}.join(', ')
+		@allPlatforms = Platform.all
+
 		@help = nil # creating var so that I can assign it in the view. might want to refactor that
 	end
 	

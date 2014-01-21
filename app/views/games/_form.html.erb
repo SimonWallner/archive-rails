@@ -95,9 +95,17 @@
 			%>
 
 			<% MixedFieldType.all.each do |type| %>
+				<% if type.name == 'External Links' %>
+					<% next %> 
+					<%#
+						dirty hack
+						there is another field external_links on the game that
+						is probably used
+					%>
+				<% end %> 
 				<div class="field">
 					<strong><%= type.name %></strong>: <div class="field-help"><%= raw @help[type.name] %></div><br>
-					<% if type.name == 'External Links' || type.name == 'Aggregate Scores' || type.name == 'Review Scores' %>
+					<% if type.name == 'Aggregate Scores' || type.name == 'Review Scores' %>
 						<% iterator = @game.mixed_fields.where(mixed_field_type_id: type.id).each_with_index do |entry, i| %>
 							<%= text_field_tag("#{type.name}_name_#{i}", entry.inspect, class: "#{type.name}_link wide") %>
 							<button type="button" class="addExternalLinkButton" + </button>
@@ -125,6 +133,16 @@
 			<% end %>
 
 			<div class="field">
+				<strong>External Links</strong>: <div class="field-help"><%= raw @help['External Links'] %></div><br>
+				<% iterator = @externalLinks.each_with_index do |entry, i| %>
+					<%= text_field_tag("#external_links_name_#{i}", entry.content, class: "external_links_link wide") %>
+					<button type="button" class="addExternalLinksButton"> + </button>
+				<% end %>
+				<%= text_field_tag("external_links_name_#{iterator.length}", '', class: "external_links_link wide") %>
+				<button type="button" class="addExternalLinksButton"> + </button>
+			</div>
+
+			<div class="field">
 				<strong>Release Dates</strong>: <div class="field-help"><%= raw @help['Release Dates'] %></div><br>
 				<% iterator = @releaseDates.each_with_index do |date, index| %>
 					<select id="<%= "day_release_date_#{index}" %>">
@@ -144,47 +162,64 @@
 
 				<% end %>
 				<br>
-				<select id="<%= "day_release_date_#{iterator}" %>">
+				<select id="<%= "day_release_date_#{iterator.length}" %>">
 					<option selected="" value="-1">-</option>
 					<% [*1..31].each do |day| %>
 						<option value="<%= day %>"><%= day %></option>
 					<% end %>
 				</select>
-				<select id="<%= "month_release_date_#{iterator}" %>">
+				<select id="<%= "month_release_date_#{iterator.length}" %>">
 					<option selected="" value="-1">-</option>
 					<% [*1..12].each do |month| %>
 						<option value="<%= month %>"><%= month %></option>
 					<% end %>
 				</select>
-				<%= text_field_tag("year_release_date_#{iterator}", '', class: "year") %>
-				<%= text_field_tag("info_release_date_#{iterator}", '', class: "info") %>
+				<%= text_field_tag("year_release_date_#{iterator.length}", '', class: "year") %>
+				<%= text_field_tag("info_release_date_#{iterator.length}", '', class: "info") %>
 			</div>
 
-			<!-- TODO
-				fix genres, etc...
-				seems like the actual forms are generated with js -->
-			<div class="field-help" id="all_genres">
-			available:
-				<%= render partial: 'list', locals: {list: Genre.all} %>
+			<div class="field">
+				<strong>User Defined Fields</strong>: <div class="field-help"><%= raw @help['Userdefined'] %></div><br>
+				<% userFields = get_user_fields(@game) %>
+				<% userFields.each_with_index do |entry, index| %>
+					<%= text_field_tag("user_defined_name_#{iterator.length}", entry.name) %>
+					<%= text_area_tag("user_defined_content_#{iterator.length}", entry.content) %>
+					<br>
+				<% end %>
+				<%= text_field_tag("user_defined_name_#{iterator.length}, 'Name'") %>
+				<%= text_area_tag("user_defined_content_#{iterator.length}", '') %>
 			</div>
 
-			<div id="all_platform" class="field-help">
-				available:
-				<%= render partial: 'list', locals: {list: Platform.all} %>
+			<div class="field">
+				<strong>Tags</strong>: <div class="field-help">available tags: <%= render partial: 'list', locals: {list: @allTags} %></div><br>
+				<input type="text" class="taggify", value="<%= @tags %>">
+				</input>
 			</div>
 
-			<div id="all_mode" class="field-help">
-				available:
-				<%= render partial: 'list', locals: {list: Mode.all} %>
+			<div class="field">
+				<strong>Genre</strong>: <div class="field-help">available genres: <%= render partial: 'list', locals: {list: @allGenres} %></div><br>
+				<input type="text" class="taggify", value="<%= @genres %>">
+				</input>
 			</div>
-			<div id="all_media" class="field-help">
-				available:
-				<%= render partial: 'list', locals: {list: Medium.all} %>
+
+			<div class="field">
+				<strong>Mode</strong>: <div class="field-help">available modes: <%= render partial: 'list', locals: {list: @allModes} %></div><br>
+				<input type="text" class="taggify", value="<%= @modes %>">
+				</input>
 			</div>
-			<div id="all_tags" class="field-help">
-				available:
-				<%= render partial: 'list', locals: {list: Tag.all} %>
+
+			<div class="field">
+				<strong>Platform</strong>: <div class="field-help">available platforms: <%= render partial: 'list', locals: {list: @allPlatforms} %></div><br>
+				<input type="text" class="taggify", value="<%= @platforms %>">
+				</input>
 			</div>
+
+			<div class="field">
+				<strong>Medium</strong>: <div class="field-help">available media: <%= render partial: 'list', locals: {list: @allMedia} %></div><br>
+				<input type="text" class="taggify", value="<%= @media %>">
+				</input>
+			</div>
+
 
 			<div class="actions">
 			<%= f.submit @game.new_record? ? "Create Game Article" : "Update Game Article" %>

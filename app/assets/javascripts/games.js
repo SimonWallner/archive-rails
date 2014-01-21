@@ -9,6 +9,11 @@ $(document).ready(function() {
         '<input type="hidden" name="new_series" id="new_series" value="" />'
    );
 
+
+    $(".taggify").each(function(_, element) {
+        $(element).tagit({allowSpaces: true});
+    });
+
     $('form#edit-game').submit(function () {
         var anzdates = $('[id^="year_release_date"]').length;
         var datestring = '';
