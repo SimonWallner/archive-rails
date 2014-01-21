@@ -66,6 +66,7 @@ class GamesController < ApplicationController
 	# GET /games/new.json -- seems like some js magic in the new page needs json
 	def new
 		@game = Game.new
+		@help = nil # creating var so that I can assign it in the view. might want to refactor that
 
 		respond_to do |format|
 			format.html # new.html.erb
@@ -77,6 +78,7 @@ class GamesController < ApplicationController
 	def edit
 		@genres = Genre.all
 		@game = @@GAME_VERSIONER.current_version Game.find(params[:id])
+		@help = nil # creating var so that I can assign it in the view. might want to refactor that
 	end
 	
 	# # GET /games/1/block

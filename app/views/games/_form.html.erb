@@ -74,23 +74,44 @@
 				submit_tag "Add Field", :type => 'button', :id => 'addFieldButton' ,
 					:onclick => 'addField(this,gamefields);'
 			%> -->
-			
+
+			<%
+				@help = { # might want to refactor that into the view...
+					'defunct' => 'Date the studio/organisation became defunct and an optional reason (e.g. merged with XY, ...)',
+					'founded' => 'Founding date of this studio/organisation.',
+					'official name' => 'Official name of the studio/organisation.',
+					'locations' => 'Comma separated list of locations where this studio/organisation is or has been active.',
+					'userdefined' =>'Userdefined field to add additional categories and data that does not match any of the other fields.',
+					'External Links' => 'Links to external websites using the simplified markup syntax. <span class="code">[description](http://example.com)',
+					'Developer' => 'Developers that contributed to this game. Add a developer\'s name and and optional role (e.g. Artist, Lead Programmer, ...). If the developer is found in the databse the field turns green.',
+					'Publisher' => 'Publishers of the game and additional optional information (e.g. publishing platform, region, ...).',
+					'Distributor' => 'Distributors of the game and additional optional information (e.g. distribution medium, region, ...).',
+					'Credits' => 'Additional credits with optional information (e.g. localisation, marketing, testing, ...).',
+					'release dates' => 'Release dates with additional optional information (e.g. platform, region, ...).',
+					'Series' => 'Prequels/sequels or other games in a series with additional optional information (e.g. prequel, sequel, spin-off, ...).',
+					'Review Scores' => 'Individual review scores. Please also link to the review <span class="code">[description](http://example.com)</span>',
+					'Aggregate Scores' => 'Aggregated review scores. Please also link to the score aggregator <span class="code">[description](http://example.com)</span>'
+				};
+			%>
 
 			<% MixedFieldType.all.each do |type| %>
 				<div class="field">
-					<strong><%= type.name %></strong><br>
+					<strong><%= type.name %></strong>: <div class="field-help"><%= raw @help[type.name] %></div><br>
 
-					<% @game.mixed_fields.where(mixed_field_type_id: type.id).each_with_index do |entry, i| %>
+					<% iterator = @game.mixed_fields.where(mixed_field_type_id: type.id).each_with_index do |entry, i| %>
 						<%= if entry.developer
-							text_field_tag("#{type.name}_name_#{i}", entry.developer.name, 'data-reference' => 'developer', class: "#{type.name}_link linkFound")
+							text_field_tag("#{type.name}_name_#{i}", entry.developer.name, 'data-reference' => "{developer: #{entry.developer.id}}", class: "#{type.name}_link linkFound")
 						elsif entry.company
-							text_field_tag("#{type.name}_name_#{i}", entry.company.name, 'data-reference' => 'comp', class: "#{type.name}_link linkFound")
+							text_field_tag("#{type.name}_name_#{i}", entry.company.name, 'data-reference' => "{company: #{entry.company.id}}", class: "#{type.name}_link linkFound")
 						else
-							text_field_tag("#{type.name}_name_#{i}", entry.not_found, 'data-reference' => 'no link', class: "#{type.name}_link linkFound")
+							text_field_tag("#{type.name}_name_#{i}", entry.not_found, class: "#{type.name}_link")
 						end %>
 						<%= text_field_tag("#{type.name}_info_#{i}", entry.additional_info, class: 'developer_text') %>
-						<button type="button" onclick="addConcreteField(this,false);" value="<%= type.name %>"> + </button>
+						<button type="button" class="addDeveloperButton" value="<%= type.name %>"> + </button>
 					<% end %>
+					<%= text_field_tag("#{type.name}_name_#{iterator.length}", '', 'data-reference' => 'no link', class: "#{type.name}_link") %>
+					<%= text_field_tag("#{type.name}_info_#{iterator.length}", '', class: 'developer_text') %>
+					<button type="button" class="addDeveloperButton" value="<%= type.name %>"> + </button>
 					<br>
 				</div>
 			<% end %>
