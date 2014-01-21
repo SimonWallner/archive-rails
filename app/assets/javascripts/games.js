@@ -14,6 +14,21 @@ $(document).ready(function() {
         $(element).tagit({allowSpaces: true});
     });
 
+    $('.addDeveloperButton').each(function(_, element) {
+        element.onclick = function() {
+            var developerRows = $('.developer_row');
+            var lastRow = developerRows[developerRows.length -1];
+            lastRow.after(lastRow.clone);
+        };
+    });
+
+
+
+
+
+
+
+
     $('form#edit-game').submit(function () {
         var anzdates = $('[id^="year_release_date"]').length;
         var datestring = '';

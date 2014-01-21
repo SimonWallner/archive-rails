@@ -114,15 +114,17 @@
 						<button type="button" class="addExternalLinkButton" value="<%= type.name %>"> + </button>
 					<% else %>
 						<% iterator = @game.mixed_fields.where(mixed_field_type_id: type.id).each_with_index do |entry, i| %>
-							<%= if entry.developer
-								text_field_tag("#{type.name}_name_#{i}", entry.developer.name, 'data-reference' => "{developer: #{entry.developer.id}}", class: "#{type.name}_link linkFound")
-							elsif entry.company
-								text_field_tag("#{type.name}_name_#{i}", entry.company.name, 'data-reference' => "{company: #{entry.company.id}}", class: "#{type.name}_link linkFound")
-							else
-								text_field_tag("#{type.name}_name_#{i}", entry.not_found, class: "#{type.name}_link")
-							end %>
-							<%= text_field_tag("#{type.name}_info_#{i}", entry.additional_info, class: 'developer_text') %>
-							<button type="button" class="addDeveloperButton"> + </button>
+							<div class="developer_row">
+								<%= if entry.developer
+									text_field_tag("#{type.name}_name_#{i}", entry.developer.name, 'data-reference' => "{developer: #{entry.developer.id}}", class: "#{type.name}_link linkFound")
+								elsif entry.company
+									text_field_tag("#{type.name}_name_#{i}", entry.company.name, 'data-reference' => "{company: #{entry.company.id}}", class: "#{type.name}_link linkFound")
+								else
+									text_field_tag("#{type.name}_name_#{i}", entry.not_found, class: "#{type.name}_link")
+								end %>
+								<%= text_field_tag("#{type.name}_info_#{i}", entry.additional_info, class: 'developer_text') %>
+								<button type="button" class="addDeveloperButton"> + </button>
+							</div>
 						<% end %>
 						<%= text_field_tag("#{type.name}_name_#{iterator.length}", '', class: "#{type.name}_link") %>
 						<%= text_field_tag("#{type.name}_info_#{iterator.length}", '', class: 'developer_text') %>
