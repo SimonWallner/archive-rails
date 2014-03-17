@@ -1,11 +1,10 @@
-<% mfs = get_mixed_fields(object, type) %>
-<% if mfs.any? %>
+<% if !object.nil? && object.any? %>
 	<div class="fact">
 		<span class="label">
 			<%= label.to_s %>:
 		</span>
 		<ul>
-			<% mfs.each do |mf| %>
+			<% object.each do |mf| %>
 				<li>
 					<% if mf.developer != nil %>
 							<%= link_to mf.developer.name, developer_path(mf.developer) %>

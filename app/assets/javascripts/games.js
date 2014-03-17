@@ -18,7 +18,7 @@ $(document).ready(function() {
         element.onclick = function() {
             var developerRows = $('.developer_row');
             var lastRow = developerRows[developerRows.length -1];
-            lastRow.after(lastRow.clone);
+            $(lastRow).after(lastRow.clone);
         };
     });
 

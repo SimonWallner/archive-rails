@@ -1,11 +1,12 @@
-<% fields = get_field(object, label.to_s) %>
-<% if fields.any? %>
+<% puts object %>
+<% puts label %>
+<% if !object.nil? && object.any? %>
 	<div class="fact">
 	  <span class="label">
 	    <%= label.to_s %>:
 	  </span>
 	  <ul>
-	    <% fields.each do |f| %>
+	    <% object.each do |f| %>
 		    <li>
 	            <%= just_links_markdown f.content %>
 		    </li>

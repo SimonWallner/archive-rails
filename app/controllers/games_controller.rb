@@ -56,6 +56,55 @@ class GamesController < ApplicationController
 		end
 		@game.increment!(:popularity)
 
+		# <!-- Developer -->
+		# <!-- Publisher -->
+		# <!-- Distributor -->
+		# <!-- Credits -->
+		# <!-- Series -->
+		# <!-- Aggregate Scores -->
+		# <!-- Review Scores -->
+		# <!-- External Links -->
+		# <!-- Release Dates -->
+		# <!-- User Defined Fields -->
+		# <!-- Tags -->
+		# <!-- Genre -->
+		# <!-- Mode -->
+		# <!-- Platform -->
+		# <!-- Medium -->
+
+		MixedFieldType.all.each do |type|
+			
+			if (type.name == 'Developer') # id: 1
+				@developers = @game.mixed_fields.where(mixed_field_type_id: type.id);
+
+			elsif (type.name == 'Publisher') # id: 2
+				@publishers = @game.mixed_fields.where(mixed_field_type_id: type.id);
+
+			elsif (type.name == 'Distributor') # id: 3
+				@distributor = @game.mixed_fields.where(mixed_field_type_id: type.id);
+
+			elsif (type.name == 'Credits') # id: 4
+				@credits = @game.mixed_fields.where(mixed_field_type_id: type.id);
+
+			elsif (type.name == 'Series') # id: 5
+				@series = @game.mixed_fields.where(mixed_field_type_id: type.id);
+
+			elsif (type.name == 'External Links') # id: 6
+				# dirty hack is dirty
+				# there is another field external_links on the game that
+				# is probably used
+				next
+
+			elsif (type.name == 'Aggregate Scores') # id: 7
+				@aggregateScores = @game.mixed_fields.where(mixed_field_type_id: type.id);
+			
+			elsif (type.name == 'Review Scores') # id: 8
+				@reviewScores = @game.mixed_fields.where(mixed_field_type_id: type.id);
+			end
+		end
+
+		@externalLinks = @game.fields.where(name: 'External Links')
+
 		respond_to do |format|
 			format.html # show.html.erb
 			format.json { render :json => @game.to_json() }
@@ -76,24 +125,59 @@ class GamesController < ApplicationController
 
 	# GET /games/1/edit
 	def edit
-		@genres = Genre.all
+
 		@game = @@GAME_VERSIONER.current_version Game.find(params[:id])
+
+		MixedFieldType.all.each do |type|
+			
+			if (type.name == 'Developer') # id: 1
+				@developers = @game.mixed_fields.where(mixed_field_type_id: type.id);
+
+			elsif (type.name == 'Publisher') # id: 2
+				@publishers = @game.mixed_fields.where(mixed_field_type_id: type.id);
+
+			elsif (type.name == 'Distributor') # id: 3
+				@distributors = @game.mixed_fields.where(mixed_field_type_id: type.id);
+
+			elsif (type.name == 'Credits') # id: 4
+				@credits = @game.mixed_fields.where(mixed_field_type_id: type.id);
+
+			elsif (type.name == 'Series') # id: 5
+				@series = @game.mixed_fields.where(mixed_field_type_id: type.id);
+
+			elsif (type.name == 'External Links') # id: 6
+				# dirty hack is dirty
+				# there is another field external_links on the game that
+				# is probably used
+				next
+
+			elsif (type.name == 'Aggregate Scores') # id: 7
+				@aggregateScores = @game.mixed_fields.where(mixed_field_type_id: type.id);
+			
+			elsif (type.name == 'Review Scores') # id: 8
+				@reviewScores = @game.mixed_fields.where(mixed_field_type_id: type.id);
+			end
+		end
+
+		
+		@userDefined = @game.fields.find_all { |f| not ["External Links", "Aggregate Scores", "Review Scores"].include?(f.name) }
+
 		@releaseDates = @game.release_dates
 		@externalLinks = @game.fields.where(name: 'External Links')
 		
-		@genres = @game.genres.map{|element| element.name}.join(', ')
+		@genres = @game.genres.map{|element| element.name}
 		@allGenres = Genre.all
 		
-		@tags = @game.tags.map{|element| element.name}.join(', ')
+		@tags = @game.tags.map{|element| element.name}
 		@allTags = Tag.all
 
-		@media = @game.media.map{|element| element.name}.join(', ')
+		@media = @game.media.map{|element| element.name}
 		@allMedia = Medium.all
 
-		@modes = @game.modes.map{|element| element.name}.join(', ')
+		@modes = @game.modes.map{|element| element.name}
 		@allModes = Mode.all
 
-		@platform = @game.platforms.map{|element| element.name}.join(', ')
+		@platforms = @game.platforms.map{|element| element.name}
 		@allPlatforms = Platform.all
 
 		@help = nil # creating var so that I can assign it in the view. might want to refactor that

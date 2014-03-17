@@ -11,11 +11,13 @@
 		</div>
 	<% end %>
 
+	<!-- Title -->
 	<div class="field">
 		<%= f.label :title, 'Game Title: '%><br />
 		<%= f.text_field :title %>
 	</div>
 	
+	<!-- Description -->
 	<div class="field">
 		<%= f.label :description, 'Game Description: '%><br />
 		<div class="field-help">
@@ -26,6 +28,7 @@
 		<%= f.text_area :description %>
 	</div>
 
+	<!-- Teaser Image -->
 	<div class="field">
 		<%= f.label :image, 'Teaser Image: ' %><span class="field-help">This image is shown on the overview page and on top of this article.</span><br />
 		<div class="field" id="profilepicfields">
@@ -40,6 +43,8 @@
 			<% end %>
 			Upload new teaser image: <%= f.file_field :image %>
 		</div>
+
+		<!-- Videos -->
 		<div class="field" >
 			<!-- iterate through all the available videos for a game and create a field for them
 			<f.text_area :video mit id!? > <remove button>
@@ -53,6 +58,8 @@
 			</div>
 			<br/>
 		</div>
+
+		<!-- Screenshots -->
 		<div class="field">
 			<%= f.label 'Screenshots: ' %><br/>
 			<div id="screenshots" >
@@ -63,18 +70,23 @@
 			</div>
 		</div>
 
+		<!-- Developer -->
+		<!-- Publisher -->
+		<!-- Distributor -->
+		<!-- Credits -->
+		<!-- Series -->
+		<!-- Aggregate Scores -->
+		<!-- Review Scores -->
+		<!-- External Links -->
+		<!-- Release Dates -->
+		<!-- User Defined Fields -->
+		<!-- Tags -->
+		<!-- Genre -->
+		<!-- Mode -->
+		<!-- Platform -->
+		<!-- Medium -->
+		
 		<div>
-			<!-- 
-			<div class="newFieldsDiv">
-				<script type="text/javascript">
-					loadfields('<%= begin game_url rescue new_game_url end %>.json');
-				</script>
-			</div>
-			<%= 
-				submit_tag "Add Field", :type => 'button', :id => 'addFieldButton' ,
-					:onclick => 'addField(this,gamefields);'
-			%> -->
-
 			<%
 				@help = { # might want to refactor that into the view...
 					'Defunct' => 'Date the studio/organisation became defunct and an optional reason (e.g. merged with XY, ...)',
@@ -94,58 +106,149 @@
 				};
 			%>
 
-			<% MixedFieldType.all.each do |type| %>
-				<% if type.name == 'External Links' %>
-					<% next %> 
-					<%#
-						dirty hack
-						there is another field external_links on the game that
-						is probably used
-					%>
-				<% end %> 
-				<div class="field">
-					<strong><%= type.name %></strong>: <div class="field-help"><%= raw @help[type.name] %></div><br>
-					<% if type.name == 'Aggregate Scores' || type.name == 'Review Scores' %>
-						<% iterator = @game.mixed_fields.where(mixed_field_type_id: type.id).each_with_index do |entry, i| %>
-							<%= text_field_tag("#{type.name}_name_#{i}", entry.inspect, class: "#{type.name}_link wide") %>
-							<button type="button" class="addExternalLinkButton" + </button>
-						<% end %>
-						<%= text_field_tag("#{type.name}_name_#{iterator.length}", '', class: "#{type.name}_link wide") %>
-						<button type="button" class="addExternalLinkButton" value="<%= type.name %>"> + </button>
-					<% else %>
-						<% iterator = @game.mixed_fields.where(mixed_field_type_id: type.id).each_with_index do |entry, i| %>
-							<div class="developer_row">
-								<%= if entry.developer
-									text_field_tag("#{type.name}_name_#{i}", entry.developer.name, 'data-reference' => "{developer: #{entry.developer.id}}", class: "#{type.name}_link linkFound")
-								elsif entry.company
-									text_field_tag("#{type.name}_name_#{i}", entry.company.name, 'data-reference' => "{company: #{entry.company.id}}", class: "#{type.name}_link linkFound")
-								else
-									text_field_tag("#{type.name}_name_#{i}", entry.not_found, class: "#{type.name}_link")
-								end %>
-								<%= text_field_tag("#{type.name}_info_#{i}", entry.additional_info, class: 'developer_text') %>
-								<button type="button" class="addDeveloperButton"> + </button>
-							</div>
-						<% end %>
-						<%= text_field_tag("#{type.name}_name_#{iterator.length}", '', class: "#{type.name}_link") %>
-						<%= text_field_tag("#{type.name}_info_#{iterator.length}", '', class: 'developer_text') %>
-						<button type="button" class="addDeveloperButton"> + </button>
-					<% end %>
-					<br>
-				</div>
-			<% end %>
-
+			<!-- developers -->
 			<div class="field">
-				<strong>External Links</strong>: <div class="field-help"><%= raw @help['External Links'] %></div><br>
+				<strong>Developers</strong>: <div class="field-help">Developers that contributed to this game. Add a developer\'s name and and optional role (e.g. Artist, Lead Programmer, ...). If the developer is found in the databse the field turns green.</div><br>
+				<% iterator = @developers.each_with_index do |entry, i| %>
+					<div class="developer_row">
+						<%= if entry.developer
+							text_field_tag("developer_name_#{i}", entry.developer.name, 'data-reference' => "{developer: #{entry.developer.id}}", class: "developer_link linkFound")
+						elsif entry.company
+							text_field_tag("developer_name_#{i}", entry.company.name, 'data-reference' => "{company: #{entry.company.id}}", class: "developer_link linkFound")
+						else
+							text_field_tag("developer_name_#{i}", entry.not_found, class: "#developer_link")
+						end %>
+						<%= text_field_tag("developer_info_#{i}", entry.additional_info, class: 'developer_text') %>
+						<button type="button" class="addDeveloperButton"> + </button>
+				<% end %>
+				<%= text_field_tag("developer_name_#{iterator.length}", '', class: "developer_link") %>
+				<%= text_field_tag("developer_info_#{iterator.length}", '', class: 'developer_text') %>
+				<button type="button" class="addDeveloperButton"> + </button>
+			</div>
+
+			<!-- publisher -->
+			<div class="field">
+				<strong>Publishers</strong>: <div class="field-help">Publishers of the game and additional optional information (e.g. publishing platform, region, ...).</div><br>
+				<% iterator = @publishers.each_with_index do |entry, i| %>
+					<div class="publisher_row">
+						<%= if entry.developer
+							text_field_tag("publisher_name_#{i}", entry.developer.name, 'data-reference' => "{developer: #{entry.developer.id}}", class: "publisher_link linkFound")
+						elsif entry.company
+							text_field_tag("publisher_name_#{i}", entry.company.name, 'data-reference' => "{company: #{entry.company.id}}", class: "publisher_link linkFound")
+						else
+							text_field_tag("publisher_name_#{i}", entry.not_found, class: "#publisher_link")
+						end %>
+						<%= text_field_tag("publisher_info_#{i}", entry.additional_info, class: 'publisher_text') %>
+						<button type="button" class="addPublisherButton"> + </button>
+				<% end %>
+				<%= text_field_tag("publisher_name_#{iterator.length}", '', class: "publisher_link") %>
+				<%= text_field_tag("publisher_info_#{iterator.length}", '', class: 'publisher_text') %>
+				<button type="button" class="addPublisherButton"> + </button>
+			</div>
+
+			<!-- Distributor -->
+			<div class="field">
+				<strong>Distributors</strong>: <div class="field-help">Distributors of the game and additional optional information (e.g. distribution medium, region, ...).</div><br>
+				<% iterator = @distributors.each_with_index do |entry, i| %>
+					<div class="distributor_row">
+						<%= if entry.developer
+							text_field_tag("distributor_name_#{i}", entry.developer.name, 'data-reference' => "{developer: #{entry.developer.id}}", class: "distributor_link linkFound")
+						elsif entry.company
+							text_field_tag("distributor_name_#{i}", entry.company.name, 'data-reference' => "{company: #{entry.company.id}}", class: "distributor_link linkFound")
+						else
+							text_field_tag("distributor_name_#{i}", entry.not_found, class: "#distributor_link")
+						end %>
+						<%= text_field_tag("distributor_info_#{i}", entry.additional_info, class: 'distributor_text') %>
+						<button type="button" class="addDistributorButton"> + </button>
+				<% end %>
+				<%= text_field_tag("distributor_name_#{iterator.length}", '', class: "distributor_link") %>
+				<%= text_field_tag("distributor_info_#{iterator.length}", '', class: 'distributor_text') %>
+				<button type="button" class="addDistributorButton"> + </button>
+			</div>
+
+
+			<!-- Credits -->
+			<div class="field">
+				<strong>Credits</strong>: <div class="field-help">Additional credits with optional information (e.g. localisation, marketing, testing, ...).</div><br>
+				<% iterator = @credits.each_with_index do |entry, i| %>
+					<div class="credits_row">
+						<%= if entry.developer
+							text_field_tag("credits_name_#{i}", entry.developer.name, 'data-reference' => "{developer: #{entry.developer.id}}", class: "credits_link linkFound")
+						elsif entry.company
+							text_field_tag("credits_name_#{i}", entry.company.name, 'data-reference' => "{company: #{entry.company.id}}", class: "credits_link linkFound")
+						else
+							text_field_tag("credits_name_#{i}", entry.not_found, class: "#credits_link")
+						end %>
+						<%= text_field_tag("credits_info_#{i}", entry.additional_info, class: 'credits_text') %>
+						<button type="button" class="addCreditsButton"> + </button>
+				<% end %>
+				<%= text_field_tag("credits_name_#{iterator.length}", '', class: "credits_link") %>
+				<%= text_field_tag("credits_info_#{iterator.length}", '', class: 'credits_text') %>
+				<button type="button" class="addCreditsButton"> + </button>
+			</div>
+
+			<!-- Series -->
+			<div class="field">
+				<strong>Series</strong>: <div class="field-help">Prequels/sequels or other games in a series with additional optional information (e.g. prequel, sequel, spin-off, ...).</div><br>
+				<% iterator = @series.each_with_index do |entry, i| %>
+					<div class="series_row">
+						<%= if entry.developer
+							text_field_tag("series_name_#{i}", entry.developer.name, 'data-reference' => "{developer: #{entry.developer.id}}", class: "series_link linkFound")
+						elsif entry.company
+							text_field_tag("series_name_#{i}", entry.company.name, 'data-reference' => "{company: #{entry.company.id}}", class: "series_link linkFound")
+						else
+							text_field_tag("series_name_#{i}", entry.not_found, class: "#series_link")
+						end %>
+						<%= text_field_tag("series_info_#{i}", entry.additional_info, class: 'series_text') %>
+						<button type="button" class="addSeriesButton"> + </button>
+				<% end %>
+				<%= text_field_tag("series_name_#{iterator.length}", '', class: "series_link") %>
+				<%= text_field_tag("seriesinfo_#{iterator.length}", '', class: 'series_text') %>
+				<button type="button" class="addSeriesButton"> + </button>
+			</div>
+
+			<!-- Aggregate Scores -->
+			<div class="field">
+				<strong>Aggregate Scores</strong>: <div class="field-help">Aggregated review scores. Please also link to the score aggregator <span class="code">[metacritic: 99](http://example.com)</span></div><br>
+				<% iterator = @aggregateScores.each_with_index do |entry, i| %>
+					<div class="aggregate_scores_row">
+						<%= text_field_tag("aggregate_score_name_#{i}", entry.content, class: "external_links_link wide") %>
+						<button type="button"> + </button>
+					</div>
+				<% end %>
+				<%= text_field_tag("aggregate_score_name_#{iterator.length}", '', class: "external_links_link wide") %>
+				<button type="button"> + </button>
+			</div>
+
+			<!-- Review Scores -->
+			<div class="field">
+				<strong>Review Scores</strong>:<div class="field-help">Individual review scores. Please also link to the review <span class="code">[IGN: 77](http://example.com)</span></span></div><br>
+				<% iterator = @reviewScores.each_with_index do |entry, i| %>
+					<div class="review_scores_row">
+						<%= text_field_tag("review_score_name_#{i}", entry.content, class: "external_links_link wide") %>
+						<button type="button"> + </button>
+					</div>
+				<% end %>
+				<%= text_field_tag("review_score_name_#{iterator.length}", '', class: "external_links_link wide") %>
+				<button type="button"> + </button>
+			</div>
+
+			<!-- external Links -->
+			<div class="field">
+				<strong>External Links</strong>:<div class="field-help">Links to external websites using the simplified markup syntax. <span class="code">[description](http://example.com)</span></span></div><br>
 				<% iterator = @externalLinks.each_with_index do |entry, i| %>
-					<%= text_field_tag("#external_links_name_#{i}", entry.content, class: "external_links_link wide") %>
-					<button type="button" class="addExternalLinksButton"> + </button>
+					<div class="external_links_row">
+						<%= text_field_tag("external_links_name_#{i}", entry.content, class: "external_links_link wide") %>
+						<button type="button" class="addExternalLinksButton"> + </button>
+					</div>
 				<% end %>
 				<%= text_field_tag("external_links_name_#{iterator.length}", '', class: "external_links_link wide") %>
 				<button type="button" class="addExternalLinksButton"> + </button>
 			</div>
 
+			<!-- release dates -->
 			<div class="field">
-				<strong>Release Dates</strong>: <div class="field-help"><%= raw @help['Release Dates'] %></div><br>
+				<strong>Release Dates</strong>: <div class="field-help">URelease dates with additional optional information (e.g. platform, region, ...).</div><br>
 				<% iterator = @releaseDates.each_with_index do |date, index| %>
 					<select id="<%= "day_release_date_#{index}" %>">
 						<option selected="" value="-1">-</option>
@@ -161,7 +264,6 @@
 					</select>
 					<%= text_field_tag("year_release_date_#{index}", '', class: "year") %>
 					<%= text_field_tag("info_release_date_#{index}", '', class: "info") %>
-
 				<% end %>
 				<br>
 				<select id="<%= "day_release_date_#{iterator.length}" %>">
@@ -180,10 +282,10 @@
 				<%= text_field_tag("info_release_date_#{iterator.length}", '', class: "info") %>
 			</div>
 
+			<!-- userdefined -->
 			<div class="field">
-				<strong>User Defined Fields</strong>: <div class="field-help"><%= raw @help['Userdefined'] %></div><br>
-				<% userFields = get_user_fields(@game) %>
-				<% userFields.each_with_index do |entry, index| %>
+				<strong>User Defined Fields</strong>: <div class="field-help">Userdefined field to add additional categories and data that does not match any of the other fields.</div><br>
+				<% @userDefined.each_with_index do |entry, index| %>
 					<%= text_field_tag("user_defined_name_#{iterator.length}", entry.name) %>
 					<%= text_area_tag("user_defined_content_#{iterator.length}", entry.content) %>
 					<br>
@@ -192,33 +294,38 @@
 				<%= text_area_tag("user_defined_content_#{iterator.length}", '') %>
 			</div>
 
+			<!-- tags -->
 			<div class="field">
 				<strong>Tags</strong>: <div class="field-help">available tags: <%= render partial: 'list', locals: {list: @allTags} %></div><br>
-				<input type="text" class="taggify", value="<%= @tags %>">
+				<input type="text" class="taggify", value="<%= @tags.join(', ') %>">
 				</input>
 			</div>
 
+			<!-- genres -->
 			<div class="field">
 				<strong>Genre</strong>: <div class="field-help">available genres: <%= render partial: 'list', locals: {list: @allGenres} %></div><br>
-				<input type="text" class="taggify", value="<%= @genres %>">
+				<input type="text" class="taggify", value="<%= @genres.join(', ') %>">
 				</input>
 			</div>
 
+			<!-- modes -->
 			<div class="field">
 				<strong>Mode</strong>: <div class="field-help">available modes: <%= render partial: 'list', locals: {list: @allModes} %></div><br>
-				<input type="text" class="taggify", value="<%= @modes %>">
+				<input type="text" class="taggify", value="<%= @modes.join(', ') %>">
 				</input>
 			</div>
 
+			<!-- platforms -->
 			<div class="field">
 				<strong>Platform</strong>: <div class="field-help">available platforms: <%= render partial: 'list', locals: {list: @allPlatforms} %></div><br>
-				<input type="text" class="taggify", value="<%= @platforms %>">
+				<input type="text" class="taggify", value="<%= @platforms.join(', ') %>">
 				</input>
 			</div>
 
+			<!-- mediums -->
 			<div class="field">
 				<strong>Medium</strong>: <div class="field-help">available media: <%= render partial: 'list', locals: {list: @allMedia} %></div><br>
-				<input type="text" class="taggify", value="<%= @media %>">
+				<input type="text" class="taggify", value="<%= @media.join(', ') %>">
 				</input>
 			</div>
 
