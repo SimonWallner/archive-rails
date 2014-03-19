@@ -1,0 +1,18 @@
+<% iterator = entries.each_with_index do |entry, i| %>
+	<div class="developer_row">
+		<%= if entry.developer
+			text_field_tag("#{kind}_name_#{i}", entry.developer.name, 'data-reference' => "{developer: #{entry.developer.id}}", class: "#{kind}_link linkFound")
+		elsif entry.company
+			text_field_tag("#{kind}_name_#{i}", entry.company.name, 'data-reference' => "{company: #{entry.company.id}}", class: "#{kind}_link linkFound")
+		else
+			text_field_tag("#{kind}_name_#{i}", entry.not_found, class: "#{kind}_link")
+		end %>
+		<%= text_field_tag("#{kind}_info_#{i}", entry.additional_info, class: "#{kind}_text") %>
+		<button type="button" class="add<%=kind.titleize%>Button"> + </button>
+	</div>
+<% end %>
+<div class="<%=kind%>_row">
+	<%= text_field_tag("#{kind}_name_#{iterator.length}", '', class: "#{kind}_link") %>
+	<%= text_field_tag("#{kind}_info_#{iterator.length}", '', class: "#{kind}_text") %>
+	<button type="button" class="add<%=kind.titleize%>Button"> + </button>
+</div>

@@ -109,82 +109,26 @@
 			<!-- developers -->
 			<div class="field">
 				<strong>Developers</strong>: <div class="field-help">Developers that contributed to this game. Add a developer\'s name and and optional role (e.g. Artist, Lead Programmer, ...). If the developer is found in the databse the field turns green.</div><br>
-				<% iterator = @developers.each_with_index do |entry, i| %>
-					<div class="developer_row">
-						<%= if entry.developer
-							text_field_tag("developer_name_#{i}", entry.developer.name, 'data-reference' => "{developer: #{entry.developer.id}}", class: "developer_link linkFound")
-						elsif entry.company
-							text_field_tag("developer_name_#{i}", entry.company.name, 'data-reference' => "{company: #{entry.company.id}}", class: "developer_link linkFound")
-						else
-							text_field_tag("developer_name_#{i}", entry.not_found, class: "#developer_link")
-						end %>
-						<%= text_field_tag("developer_info_#{i}", entry.additional_info, class: 'developer_text') %>
-						<button type="button" class="addDeveloperButton"> + </button>
-				<% end %>
-				<%= text_field_tag("developer_name_#{iterator.length}", '', class: "developer_link") %>
-				<%= text_field_tag("developer_info_#{iterator.length}", '', class: 'developer_text') %>
-				<button type="button" class="addDeveloperButton"> + </button>
+				<%= render :partial => 'mixedFieldForm', :locals => {kind: 'developer', entries: @developers} %>
 			</div>
 
 			<!-- publisher -->
 			<div class="field">
 				<strong>Publishers</strong>: <div class="field-help">Publishers of the game and additional optional information (e.g. publishing platform, region, ...).</div><br>
-				<% iterator = @publishers.each_with_index do |entry, i| %>
-					<div class="publisher_row">
-						<%= if entry.developer
-							text_field_tag("publisher_name_#{i}", entry.developer.name, 'data-reference' => "{developer: #{entry.developer.id}}", class: "publisher_link linkFound")
-						elsif entry.company
-							text_field_tag("publisher_name_#{i}", entry.company.name, 'data-reference' => "{company: #{entry.company.id}}", class: "publisher_link linkFound")
-						else
-							text_field_tag("publisher_name_#{i}", entry.not_found, class: "#publisher_link")
-						end %>
-						<%= text_field_tag("publisher_info_#{i}", entry.additional_info, class: 'publisher_text') %>
-						<button type="button" class="addPublisherButton"> + </button>
-				<% end %>
-				<%= text_field_tag("publisher_name_#{iterator.length}", '', class: "publisher_link") %>
-				<%= text_field_tag("publisher_info_#{iterator.length}", '', class: 'publisher_text') %>
-				<button type="button" class="addPublisherButton"> + </button>
+				<%= render :partial => 'mixedFieldForm', :locals => {kind: 'publisher', entries: @publishers} %>
 			</div>
 
 			<!-- Distributor -->
 			<div class="field">
 				<strong>Distributors</strong>: <div class="field-help">Distributors of the game and additional optional information (e.g. distribution medium, region, ...).</div><br>
-				<% iterator = @distributors.each_with_index do |entry, i| %>
-					<div class="distributor_row">
-						<%= if entry.developer
-							text_field_tag("distributor_name_#{i}", entry.developer.name, 'data-reference' => "{developer: #{entry.developer.id}}", class: "distributor_link linkFound")
-						elsif entry.company
-							text_field_tag("distributor_name_#{i}", entry.company.name, 'data-reference' => "{company: #{entry.company.id}}", class: "distributor_link linkFound")
-						else
-							text_field_tag("distributor_name_#{i}", entry.not_found, class: "#distributor_link")
-						end %>
-						<%= text_field_tag("distributor_info_#{i}", entry.additional_info, class: 'distributor_text') %>
-						<button type="button" class="addDistributorButton"> + </button>
-				<% end %>
-				<%= text_field_tag("distributor_name_#{iterator.length}", '', class: "distributor_link") %>
-				<%= text_field_tag("distributor_info_#{iterator.length}", '', class: 'distributor_text') %>
-				<button type="button" class="addDistributorButton"> + </button>
+				<%= render :partial => 'mixedFieldForm', :locals => {kind: 'distributor', entries: @distributors} %>
 			</div>
 
 
 			<!-- Credits -->
 			<div class="field">
 				<strong>Credits</strong>: <div class="field-help">Additional credits with optional information (e.g. localisation, marketing, testing, ...).</div><br>
-				<% iterator = @credits.each_with_index do |entry, i| %>
-					<div class="credits_row">
-						<%= if entry.developer
-							text_field_tag("credits_name_#{i}", entry.developer.name, 'data-reference' => "{developer: #{entry.developer.id}}", class: "credits_link linkFound")
-						elsif entry.company
-							text_field_tag("credits_name_#{i}", entry.company.name, 'data-reference' => "{company: #{entry.company.id}}", class: "credits_link linkFound")
-						else
-							text_field_tag("credits_name_#{i}", entry.not_found, class: "#credits_link")
-						end %>
-						<%= text_field_tag("credits_info_#{i}", entry.additional_info, class: 'credits_text') %>
-						<button type="button" class="addCreditsButton"> + </button>
-				<% end %>
-				<%= text_field_tag("credits_name_#{iterator.length}", '', class: "credits_link") %>
-				<%= text_field_tag("credits_info_#{iterator.length}", '', class: 'credits_text') %>
-				<button type="button" class="addCreditsButton"> + </button>
+				<%= render :partial => 'mixedFieldForm', :locals => {kind: 'credit', entries: @credits} %>
 			</div>
 
 			<!-- Series -->
@@ -201,6 +145,7 @@
 						end %>
 						<%= text_field_tag("series_info_#{i}", entry.additional_info, class: 'series_text') %>
 						<button type="button" class="addSeriesButton"> + </button>
+					</div>
 				<% end %>
 				<%= text_field_tag("series_name_#{iterator.length}", '', class: "series_link") %>
 				<%= text_field_tag("seriesinfo_#{iterator.length}", '', class: 'series_text') %>
@@ -222,7 +167,7 @@
 
 			<!-- Review Scores -->
 			<div class="field">
-				<strong>Review Scores</strong>:<div class="field-help">Individual review scores. Please also link to the review <span class="code">[IGN: 77](http://example.com)</span></span></div><br>
+				<strong>Review Scores</strong>: <div class="field-help">Individual review scores. Please also link to the review <span class="code">[IGN: 77](http://example.com)</span></span></div><br>
 				<% iterator = @reviewScores.each_with_index do |entry, i| %>
 					<div class="review_scores_row">
 						<%= text_field_tag("review_score_name_#{i}", entry.content, class: "external_links_link wide") %>
@@ -235,7 +180,7 @@
 
 			<!-- external Links -->
 			<div class="field">
-				<strong>External Links</strong>:<div class="field-help">Links to external websites using the simplified markup syntax. <span class="code">[description](http://example.com)</span></span></div><br>
+				<strong>External Links</strong>: <div class="field-help">Links to external websites using the simplified markup syntax. <span class="code">[description](http://example.com)</span></span></div><br>
 				<% iterator = @externalLinks.each_with_index do |entry, i| %>
 					<div class="external_links_row">
 						<%= text_field_tag("external_links_name_#{i}", entry.content, class: "external_links_link wide") %>
@@ -322,9 +267,9 @@
 				</input>
 			</div>
 
-			<!-- mediums -->
+			<!-- media -->
 			<div class="field">
-				<strong>Medium</strong>: <div class="field-help">available media: <%= render partial: 'list', locals: {list: @allMedia} %></div><br>
+				<strong>Media</strong>: <div class="field-help">available media: <%= render partial: 'list', locals: {list: @allMedia} %></div><br>
 				<input type="text" class="taggify", value="<%= @media.join(', ') %>">
 				</input>
 			</div>

@@ -1,15 +1,31 @@
+/*
+ * This function gathers 'mixed fields' and returns them as an array.
+ * This function expects the following structure
+ * <div class="${fieldName}_row">
+ *      <div id="${fieldName}_name_${index}">...</div>
+ *      <div id="${fieldName}_info_${index}">...</div>
+ * </div>
+ */
+var gatherFieldIntoArray = function(fieldName) {
+    var output = [];
+
+    var fieldCount = $('.' + fieldName + '_row').length;
+
+    for (var i = 0; i < fieldCount; i++) {
+        var name = $('#' + fieldName + '_name_' + i).val();
+
+        if (name !== '') {
+            var dev = {
+                name: name,
+                info: $('#' + fieldName + '_info_' + i).val(),
+            }
+            output.push(dev);
+        }
+    }
+    return output;
+}
+
 $(document).ready(function() {
-   $('form#edit-game').append(
-        '<input type="hidden" name="new_release_dates" id="new_release_dates" value="" />'+
-        '<input type="hidden" name="new_developers" id="new_developers" value="" />' +
-        '<input type="hidden" name="new_credits" id="new_credits" value="" />' +
-        '<input type="hidden" name="new_publishers" id="new_publishers" value="" />' +
-        '<input type="hidden" name="new_distributors" id="new_distributors" value="" />' +
-        '<input type="hidden" name="new_fields" id="new_fields" value="" />'  +
-        '<input type="hidden" name="new_series" id="new_series" value="" />'
-   );
-
-
     $(".taggify").each(function(_, element) {
         $(element).tagit({allowSpaces: true});
     });
@@ -24,12 +40,24 @@ $(document).ready(function() {
 
 
 
-
-
-
-
-
     $('form#edit-game').submit(function () {
+
+        var fields = {};
+
+        // mixedFields
+        fields.developers = gatherFieldIntoArray('developer');
+        fields.publisher = gatherFieldIntoArray('publisher');
+        fields.distributor = gatherFieldIntoArray('distributor');
+        fields.credits = gatherFieldIntoArray('credits');
+
+
+        $('<input/>', {
+            type: 'hidden',
+            name: 'fields',
+            value: JSON.stringify(fields)
+        }).appendTo(this);
+
+
         var anzdates = $('[id^="year_release_date"]').length;
         var datestring = '';
         for(var i = 1; i <= anzdates; i++){
@@ -41,6 +69,7 @@ $(document).ready(function() {
         }
         datestring = datestring.substr(0, datestring.length -1);
 
+        
         var anzuserdef = $('[id^="name_userdefined"]').length;
         var userdefstring = '';
         for(var i = 1; i <= anzuserdef; i++){
@@ -65,31 +94,31 @@ $(document).ready(function() {
 		// TODO refactor this whole mess
 		// I started here, but for some reason it didn't pan out
 		//
-		// var formFields = [
-		// 	{visibleFormName: 'developer', hiddenFormName: 'new_developers'},
-		// 	{visibleFormName: 'publisher', hiddenFormName: 'new_publishers'},
-		// 	{visibleFormName: 'distributor', hiddenFormName: 'new_distributors'},
-		// 	{visibleFormName: 'credits', hiddenFormName: 'new_credits'},
-		// 	{visibleFormName: 'series', hiddenFormName: 'new_series'}
-		// 	];
-		//         $.each(formFields, function(_, field) {
-		// 	var nameFields = $('.' + field.visibleFormName + '_link');
-		// 	var infoFields = $('.' + field.visibleFormName + '_text');
-		// 	
-		// 	var dataArray = nameFields.toArray().reduce(function(previous, current, index) {
-		// 		var datum = $(current).val() + ':';
-		// 		
-		// 		var infoValue = $(infoFields[index]).val()
-		// 		if (infoValue) {
-		// 			datum += infoValue;
-		// 		}
-		// 		
-		// 		previous.push(datum);
-		// 		return previous;
-		// 	}, []);
-		// 	
-		// 	$('#' + field.hiddenFormName).val(dataArray.join());
-		//         });
+		var formFields = [
+			{visibleFormName: 'developer', hiddenFormName: 'new_developers'},
+			{visibleFormName: 'publisher', hiddenFormName: 'new_publishers'},
+			{visibleFormName: 'distributor', hiddenFormName: 'new_distributors'},
+			{visibleFormName: 'credits', hiddenFormName: 'new_credits'},
+			{visibleFormName: 'series', hiddenFormName: 'new_series'}
+			];
+		        $.each(formFields, function(_, field) {
+			var nameFields = $('.' + field.visibleFormName + '_link');
+			var infoFields = $('.' + field.visibleFormName + '_text');
+			
+			var dataArray = nameFields.toArray().reduce(function(previous, current, index) {
+				var datum = $(current).val() + ':';
+				
+				var infoValue = $(infoFields[index]).val()
+				if (infoValue) {
+					datum += infoValue;
+				}
+				
+				previous.push(datum);
+				return previous;
+			}, []);
+			
+			$('#' + field.hiddenFormName).val(dataArray.join());
+		        });
 
         $.each(['developer','publisher','distributor','credits', 'series'], function(index, val){
             var input_field_name = 'new_' + val;
