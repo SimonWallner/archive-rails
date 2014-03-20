@@ -1,42 +1,73 @@
 /*
- * This function gathers 'mixed fields' and returns them as an array.
- * This function expects the following structure
- * <div class="${fieldName}_row">
- *      <div id="${fieldName}_name_${index}">...</div>
- *      <div id="${fieldName}_info_${index}">...</div>
- * </div>
+ * extract the number from a string in the form of 
+ * 'foo42bar'\
  */
-var gatherFieldIntoArray = function(fieldName) {
-    var output = [];
-
-    var fieldCount = $('.' + fieldName + '_row').length;
-
-    for (var i = 0; i < fieldCount; i++) {
-        var name = $('#' + fieldName + '_name_' + i).val();
-
-        if (name !== '') {
-            var dev = {
-                name: name,
-                info: $('#' + fieldName + '_info_' + i).val(),
-            }
-            output.push(dev);
-        }
-    }
-    return output;
+var extractNumber = function(string) {
+	return string.match(/[0-9]+/);
 }
 
-$(document).ready(function() {
-    $(".taggify").each(function(_, element) {
-        $(element).tagit({allowSpaces: true});
-    });
+var autocompleteMixedField = function(fieldName, suggestions) {
+	$('[id^=' + fieldName + '][id$=name]').each(function(_, element) {
+		$(element).autocomplete({
+			source: suggestions,
+			select: function(event, ui) {
+				// set the field value
+				$(element).val(ui.item.value.name);
 
-    $('.addDeveloperButton').each(function(_, element) {
-        element.onclick = function() {
-            var developerRows = $('.developer_row');
-            var lastRow = developerRows[developerRows.length -1];
-            $(lastRow).after(lastRow.clone);
-        };
-    });
+				// set the hidden field with the corresponding index
+				var index = extractNumber(element.id);
+				$('#' + fieldName + '_' + index + '_reference').val(JSON.stringify(ui.item.value.reference));
+
+				// highlight the found element
+				$(element).addClass('linkFound');
+
+				// prevent default autocomplete event
+				event.preventDefault();
+			},
+			focus: function(event, ui) {
+				$(element).val(ui.item.value.name);
+				event.preventDefault();
+			}
+		});
+
+		$(element).on('input', function(event, ui) {
+			var index = extractNumber(element.id);
+			$('#' + fieldName + '_' + index + '_reference').val();
+			$(this).removeClass('linkFound');
+		});
+	});
+}
+
+
+
+$(document).ready(function() {
+	$(".taggify").each(function(_, element) {
+		$(element).tagit({allowSpaces: true});
+	});
+
+	$('.addDeveloperButton').each(function(_, element) {
+		element.onclick = function() {
+			var developerRows = $('.developer_row');
+			var lastRow = developerRows[developerRows.length -1];
+			$(lastRow).after(lastRow.clone);
+		};
+	});
+
+	// load mixed field suggestions from server
+	// setup auto complete on the right fields
+	$.ajax({
+		dataType: 'json',
+		url: '/ajax.json',
+		data: {kind: 'developers_and_companies'},
+		success: function(data) {
+			// setup autocomplete
+			autocompleteMixedField('developer', data);
+			autocompleteMixedField('publisher', data);
+			autocompleteMixedField('distributor', data);
+			autocompleteMixedField('credit', data);
+		}
+	});
+
 
 
 
@@ -69,7 +100,7 @@ $(document).ready(function() {
   //       }
   //       datestring = datestring.substr(0, datestring.length -1);
 
-        
+		
   //       var anzuserdef = $('[id^="name_userdefined"]').length;
   //       var userdefstring = '';
   //       for(var i = 1; i <= anzuserdef; i++){
